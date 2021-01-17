@@ -23,7 +23,9 @@ function InputField(props) {
     return (
         <div>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">{label}</InputLabel>
+                <InputLabel className={classes.label} id="demo-controlled-open-select-label">
+                    {label}
+                </InputLabel>
                 <Select
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
