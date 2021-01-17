@@ -93,8 +93,8 @@ function Dashboard(props) {
         <div className={classes.dashboard}>
             <div style={{ display: "flex", padding: "20px 20px" }}>
                 <InputField
-                    key="clients"
-                    label="Clients"
+                    key="client"
+                    label="Client"
                     menuItems={displayClients}
                     handleChange={selectClient}
                     value={client.client}
@@ -102,8 +102,8 @@ function Dashboard(props) {
                 />
                 {client.campaigns.length > 0 && (
                     <InputField
-                        key="campaigns"
-                        label="Campaigns"
+                        key="campaign"
+                        label="Campaign"
                         menuItems={displayCampaigns()}
                         handleChange={selectCampaign}
                         value={campaign.campaignID}
