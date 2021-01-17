@@ -12,7 +12,7 @@ const styles = {
 
     // GLASS MORPHISM
     dashboard: {
-        width: "100%",
+        width: "1024px",
         height: "636px",
         display: "grid",
         gridTemplateColumns: " auto",
