@@ -161,4 +161,18 @@ module.exports = class MailShakeApi {
             console.log("ERROR GETTING ALL SCORES ---", error);
         }
     }
+
+    async addToCampaign(campaignID, contacts) {
+        try {
+            const mailshake = await this.assignMailshake();
+
+            return await mailshake.recipients.add({
+                campaignID,
+                addAsNewList: true,
+                addresses: contacts,
+            });
+        } catch (error) {
+            console.log("ERROR ADDTOCAMPAIGN() ---", error);
+        }
+    }
 };
