@@ -6,7 +6,7 @@ const { GoogleSpreadsheet } = require("google-spreadsheet");
 const doc = new GoogleSpreadsheet("1MEBQVT1gt03KqPDZlvHkWdsca6t1ycD6ne-Odmfnze0");
 
 module.exports = {
-    async appendProspect() {
+    async appendProspect(data) {
         try {
             // Initialize Auth
             await doc.useServiceAccountAuth({
@@ -19,9 +19,10 @@ module.exports = {
             const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
 
             // append rows
-            const appendRow = await sheet.addRow(["1", "2", "3", "4", "5", "6"]);
+            // const appendRow = await sheet.addRow(["1", "2", "3", "4", "5", "6"]);
+            const prospect = await sheet.addRow(data);
 
-            return appendRow._rawData;
+            return prospect._rawData;
         } catch (error) {
             console.log("ERROR APPENDPROSPECT ---", error);
         }
