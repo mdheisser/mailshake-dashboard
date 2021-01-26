@@ -12,16 +12,21 @@ module.exports = async (event) => {
         const { id, campaign, campaignID } = await getCampaign();
         const airtableContacts = await getContacts();
 
-        const mailshakeContacts = airtableToMailshake(airtableContacts);
-        const summa = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
-        await summa.addToCampaign(campaignID, mailshakeContacts);
+        const firstLiners = airtableContacts.filter((contact) => contact["First Line"] !== "");
 
-        await updateCampaign(id);
-        await updateContacts(airtableContacts, campaign);
+        if (firstLiners.length > 0) {
+            const mailshakeContacts = airtableToMailshake(firstLiners);
+            const summa = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
+            await summa.addToCampaign(campaignID, mailshakeContacts);
+
+            await updateCampaign(id);
+            await updateContacts(airtableContacts, campaign);
+        }
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ campaign }),
+            // body: JSON.stringify({ campaign }),
+            body: JSON.stringify({ firstLiners }),
         };
     } catch (error) {
         return {
