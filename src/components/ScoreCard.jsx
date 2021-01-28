@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import ReactLoading from "react-loading";
 
 import { withStyles } from "@material-ui/styles";
-import styles from "../styles/ScoreCard";
+import styles from "./styles/ScoreCard";
 
 function ScoreCard(props) {
     const { classes, score, title, percent, isFetching } = props;

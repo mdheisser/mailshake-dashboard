@@ -2,7 +2,7 @@ import React from "react";
 import ScoreCard from "./ScoreCard";
 
 import { withStyles } from "@material-ui/styles";
-import styles from "../styles/ScoreCardRow";
+import styles from "./styles/ScoreCardRow";
 
 function ScoreCardRow({ mailshakeTotals, isFetching, classes }) {
     const totals = mailshakeTotals.map((total) => (

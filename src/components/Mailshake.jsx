@@ -8,7 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
 
 import { withStyles } from "@material-ui/styles";
-import styles from "../styles/MailShake";
+import styles from "./styles/MailShake";
 
 function Mailshake({ classes }) {
     return (

@@ -4,7 +4,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 import { withStyles } from "@material-ui/styles";
-import styles from "../styles/InputField";
+import styles from "./styles/InputField";
 
 function InputField(props) {
     const { classes, label, handleChange, menuItems, value } = props;

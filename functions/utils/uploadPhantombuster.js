@@ -4,8 +4,7 @@ module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
 
-        // const prospect = await appendProspect(res.client);
-        const prospect = "Hello world";
+        const prospect = await appendProspect(res.client);
 
         return {
             statusCode: 200,

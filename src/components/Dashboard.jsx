@@ -4,11 +4,11 @@ import InputField from "./InputField";
 import ScoreCardRow from "./ScoreCardRow";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import clients from "../mailshake/db/users";
+import clients from "../db/users";
 
 import { withStyles } from "@material-ui/styles";
-import styles from "../styles/Dashboard";
-import users from "../mailshake/db/users";
+import styles from "./styles/Dashboard";
+import users from "../db/users";
 
 import axios from "axios";
 
@@ -51,7 +51,7 @@ function Dashboard(props) {
         const [selectedUser] = users.filter((user) => user.client === client.client);
 
         const { data } = await axios.post("/.netlify/functions/getCampaignTotals", {
-            client: selectedUser.api,
+            client: selectedUser.mailshakeApi,
             campaignID: event.target.value,
         });
 
@@ -69,7 +69,7 @@ function Dashboard(props) {
         const [selectedClient] = clients.filter((client) => client.client === clientName);
 
         const { data } = await axios.post("/.netlify/functions/getCampaigns", {
-            client: selectedClient.api,
+            client: selectedClient.mailshakeApi,
         });
 
         return data.campaigns;

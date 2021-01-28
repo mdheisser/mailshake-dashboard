@@ -3,7 +3,7 @@ require("dotenv").config();
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 
 // Initialize the sheet - doc ID is the long id in the sheets URL
-const doc = new GoogleSpreadsheet("1MEBQVT1gt03KqPDZlvHkWdsca6t1ycD6ne-Odmfnze0");
+const doc = new GoogleSpreadsheet("1PluaeGSR51jXdVFb0AuzQDYJ9DvcryptJlKuIMtYvdM");
 
 module.exports = {
     async appendProspect(data) {
@@ -19,7 +19,6 @@ module.exports = {
             const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
 
             // append rows
-            // const appendRow = await sheet.addRow(["1", "2", "3", "4", "5", "6"]);
             const prospect = await sheet.addRow(data);
 
             return prospect._rawData;
