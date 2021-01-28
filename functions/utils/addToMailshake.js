@@ -30,7 +30,7 @@ module.exports = async (event) => {
         return {
             statusCode: 200,
             // body: JSON.stringify({ campaign }),
-            body: JSON.stringify({ firstLiners }),
+            body: JSON.stringify({ res }),
         };
     } catch (error) {
         return {
