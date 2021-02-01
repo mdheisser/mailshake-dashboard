@@ -23,14 +23,9 @@ module.exports = async (event) => {
         //     await updateContacts(airtableContacts, campaign);
         // }
 
-        const res = JSON.parse(event.body);
-
-        console.log(res.client);
-
         return {
             statusCode: 200,
-            // body: JSON.stringify({ campaign }),
-            body: JSON.stringify({ res }),
+            body: JSON.stringify({ body: name }),
         };
     } catch (error) {
         return {
