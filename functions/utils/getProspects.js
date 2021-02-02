@@ -9,24 +9,19 @@ const {
 
 module.exports = async (event) => {
     try {
-        const { id, campaign, campaignID } = await getCampaign();
+        const campaign = await getCampaign();
         const airtableContacts = await getContacts();
 
-        const firstLiners = airtableContacts.filter((contact) => contact["First Line"] !== "");
+        const mailshakeContacts = airtableToMailshake(airtableContacts);
+        const summa = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
+        await summa.addToCampaign(campaign.id, mailshakeContacts);
 
-        if (firstLiners.length > 0) {
-            const mailshakeContacts = airtableToMailshake(firstLiners);
-            const summa = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
-            await summa.addToCampaign(campaignID, mailshakeContacts);
-
-            await updateCampaign(id);
-            await updateContacts(airtableContacts, campaign);
-        }
+        await updateCampaign(campaign.recordID);
+        await updateContacts(airtableContacts, campaign);
 
         return {
             statusCode: 200,
-            // body: JSON.stringify({ campaign }),
-            body: JSON.stringify({ firstLiners }),
+            body: JSON.stringify({ campaign }),
         };
     } catch (error) {
         return {

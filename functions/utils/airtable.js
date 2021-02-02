@@ -4,7 +4,7 @@ const Airtable = require("airtable");
 const moment = require("moment");
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appPfAkOluijuGY1T");
-const clientTable = base("TX & OK Verified");
+const clientTable = base("First Line Ready");
 const campaignTable = base("Campaigns");
 
 module.exports = {
@@ -15,9 +15,9 @@ module.exports = {
                 .firstPage();
 
             return {
-                id: res.getId(),
-                campaign: res.fields.Campaign,
-                campaignID: res.fields.campaignID,
+                recordID: res.getId(),
+                name: res.fields.Campaign,
+                id: res.fields.campaignID,
             };
         } catch (error) {
             console.log("ERROR GETCAMPAIGN() ---", error);
@@ -43,7 +43,7 @@ module.exports = {
 
                 return {
                     ...fields,
-                    id: contact.getId(),
+                    recordID: contact.getId(),
                 };
             });
         } catch (error) {
@@ -51,7 +51,7 @@ module.exports = {
         }
     },
 
-    async updateContacts(contacts, Campaign) {
+    async updateContacts(contacts, campaign) {
         try {
             const today = moment(new Date()).format("MM/DD/YYYY");
 
@@ -60,9 +60,10 @@ module.exports = {
                     setTimeout(resolve, 500);
                 });
 
-                await clientTable.update(contact.id, {
+                await clientTable.update(contact.recordID, {
                     "In Mailshake": true,
-                    Campaign,
+                    Campaign: campaign.name,
+                    campaignID: campaign.id,
                     "Mailshake Upload Date": today,
                 });
             }
@@ -80,10 +81,11 @@ module.exports = {
                     fields: {
                         city: contact.city,
                         company: contact.company_name,
-                        "First Line": contact["First Line"],
+                        "First Line": contact["First Line"] || "",
                         job: contact.job_title,
                         "Last Name": contact.last_name,
                         "LinkedIn Page": contact.url,
+                        recordID: contact.recordID,
                     },
                 };
             });

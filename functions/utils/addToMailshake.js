@@ -6,9 +6,20 @@ const {
     updateCampaign,
     updateContacts,
 } = require("./airtable");
+const users = require("../../src/db/users");
 
 module.exports = async (event) => {
     try {
+        const body = JSON.parse(event.body);
+
+        const { client, email, campaignID, recordID } = body;
+
+        const foundUser = users.find((user) => user.client === client);
+
+        const { id, campaign, campaignID } = await getCampaign(foundUser.airtableBase);
+
+        // ----------------------------------------------
+
         // const { id, campaign, campaignID } = await getCampaign();
         // const airtableContacts = await getContacts();
 
@@ -25,7 +36,7 @@ module.exports = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ body: name }),
+            body: JSON.stringify({ body: "Hello world" }),
         };
     } catch (error) {
         return {
@@ -34,3 +45,9 @@ module.exports = async (event) => {
         };
     }
 };
+
+// AIRTABLE --> MAILSHAKE
+// campaign ID
+
+// MAILSHAKE --> AIRTABLE
+// airtable ID

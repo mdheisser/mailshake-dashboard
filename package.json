@@ -13,6 +13,7 @@
         "google-spreadsheet": "^3.1.15",
         "mailshake-node": "^2.0.0",
         "moment": "^2.29.1",
+        "node-fetch": "^2.6.1",
         "querystring": "^0.2.0",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
