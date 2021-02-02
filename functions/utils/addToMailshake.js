@@ -1,42 +1,30 @@
 const MailShakeApi = require("./mailshake");
-const {
-    getCampaign,
-    getContacts,
-    airtableToMailshake,
-    updateCampaign,
-    updateContacts,
-} = require("./airtable");
+const AirtableApi = require("./airtable");
+
 const users = require("../../src/db/users");
+
+const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 module.exports = async (event) => {
     try {
-        const body = JSON.parse(event.body);
-
-        const { client, email, campaignID, recordID } = body;
+        const client = JSON.parse(event.body);
 
         const foundUser = users.find((user) => user.client === client);
 
-        const { id, campaign, campaignID } = await getCampaign(foundUser.airtableBase);
+        const campaign = await Airtable.getCampaign(foundUser.airtableBase);
+        const airtableContacts = await Airtable.getContacts(foundUser.airtableBase);
 
-        // ----------------------------------------------
+        const mailshakeContacts = Airtable.airtableToMailshake(airtableContacts);
 
-        // const { id, campaign, campaignID } = await getCampaign();
-        // const airtableContacts = await getContacts();
+        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        await Mailshake.addToCampaign(campaign.id, mailshakeContacts);
 
-        // const firstLiners = airtableContacts.filter((contact) => contact["First Line"] !== "");
-
-        // if (firstLiners.length > 0) {
-        //     const mailshakeContacts = airtableToMailshake(firstLiners);
-        //     const summa = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
-        //     await summa.addToCampaign(campaignID, mailshakeContacts);
-
-        //     await updateCampaign(id);
-        //     await updateContacts(airtableContacts, campaign);
-        // }
+        await summaAirtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
+        await summaAirtable.updateContacts(foundUser.airtableBase, airtableContacts, campaign);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ body: "Hello world" }),
+            body: JSON.stringify({ campaign }),
         };
     } catch (error) {
         return {
@@ -45,9 +33,3 @@ module.exports = async (event) => {
         };
     }
 };
-
-// AIRTABLE --> MAILSHAKE
-// campaign ID
-
-// MAILSHAKE --> AIRTABLE
-// airtable ID

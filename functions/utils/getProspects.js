@@ -5,18 +5,18 @@ const AirtableApi = require("./airtable");
 
 const users = require("../../src/db/users");
 
+const summaAirtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
+const summaMailshake = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
+
 module.exports = async (event) => {
     try {
         const foundUser = users.find(({ client }) => client === "Summa Media");
-
-        const summaAirtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
         const campaign = await summaAirtable.getCampaign(foundUser.airtableBase);
         const airtableContacts = await summaAirtable.getContacts(foundUser.airtableBase);
 
         const mailshakeContacts = summaAirtable.airtableToMailshake(airtableContacts);
 
-        const summaMailshake = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
         await summaMailshake.addToCampaign(campaign.id, mailshakeContacts);
 
         await summaAirtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
