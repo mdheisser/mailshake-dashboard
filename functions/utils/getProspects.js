@@ -1,23 +1,26 @@
+require("dotenv").config();
+
 const MailShakeApi = require("./mailshake");
-const {
-    getCampaign,
-    getContacts,
-    airtableToMailshake,
-    updateCampaign,
-    updateContacts,
-} = require("./airtable");
+const AirtableApi = require("./airtable");
+
+const users = require("../../src/db/users");
 
 module.exports = async (event) => {
     try {
-        const campaign = await getCampaign();
-        const airtableContacts = await getContacts();
+        const foundUser = users.find(({ client }) => client === "Summa Media");
 
-        const mailshakeContacts = airtableToMailshake(airtableContacts);
-        const summa = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
-        await summa.addToCampaign(campaign.id, mailshakeContacts);
+        const summaAirtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
-        await updateCampaign(campaign.recordID);
-        await updateContacts(airtableContacts, campaign);
+        const campaign = await summaAirtable.getCampaign(foundUser.airtableBase);
+        const airtableContacts = await summaAirtable.getContacts(foundUser.airtableBase);
+
+        const mailshakeContacts = summaAirtable.airtableToMailshake(airtableContacts);
+
+        const summaMailshake = new MailShakeApi(process.env.REACT_APP_SUMMA_MEDIA);
+        await summaMailshake.addToCampaign(campaign.id, mailshakeContacts);
+
+        await summaAirtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
+        await summaAirtable.updateContacts(foundUser.airtableBase, airtableContacts, campaign);
 
         return {
             statusCode: 200,

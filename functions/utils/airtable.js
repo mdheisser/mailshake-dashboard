@@ -1,16 +1,28 @@
-require("dotenv").config();
-
 const Airtable = require("airtable");
 const moment = require("moment");
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appPfAkOluijuGY1T");
-const clientTable = base("First Line Ready");
-const campaignTable = base("Campaigns");
+module.exports = class AirtableApi {
+    constructor(apiKey) {
+        if (!apiKey) {
+            throw new Error("Using Airtable requires an API key.");
+        }
 
-module.exports = {
-    async getCampaign() {
+        this.apiKey = apiKey;
+    }
+
+    async assignAirtable(baseID) {
         try {
-            const [res] = await campaignTable
+            return new Airtable({ apiKey: this.apiKey }).base(baseID);
+        } catch (error) {
+            console.log("NO API KEY PROVIDED ---", error);
+        }
+    }
+
+    async getCampaign(baseID) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            const [res] = await base("Campaigns")
                 .select({ maxRecords: 1, view: "Grid view" })
                 .firstPage();
 
@@ -22,21 +34,27 @@ module.exports = {
         } catch (error) {
             console.log("ERROR GETCAMPAIGN() ---", error);
         }
-    },
+    }
 
-    async updateCampaign(id) {
+    async updateCampaign(baseID, id) {
         try {
+            const base = await this.assignAirtable(baseID);
+
             const today = moment(new Date()).format("MM/DD/YYYY");
 
-            return await campaignTable.update(id, { "Last Upload": today });
+            return await base("Campaigns").update(id, { "Last Upload": today });
         } catch (error) {
             console.log("ERROR UPDATECAMPAIGN() ---", error);
         }
-    },
+    }
 
-    async getContacts() {
+    async getContacts(baseID) {
         try {
-            const res = await clientTable.select({ maxRecords: 5, view: "Grid view" }).firstPage();
+            const base = await this.assignAirtable(baseID);
+
+            const res = await base("First Line Ready")
+                .select({ maxRecords: 5, view: "Grid view" })
+                .firstPage();
 
             return res.map((contact) => {
                 const fields = contact.fields;
@@ -49,10 +67,12 @@ module.exports = {
         } catch (error) {
             console.log("ERROR GETCONTACTS() ---", error);
         }
-    },
+    }
 
-    async updateContacts(contacts, campaign) {
+    async updateContacts(baseID, contacts, campaign) {
         try {
+            const base = await this.assignAirtable(baseID);
+
             const today = moment(new Date()).format("MM/DD/YYYY");
 
             for (let contact of contacts) {
@@ -60,7 +80,7 @@ module.exports = {
                     setTimeout(resolve, 500);
                 });
 
-                await clientTable.update(contact.recordID, {
+                await base("First Line Ready").update(contact.recordID, {
                     "In Mailshake": true,
                     Campaign: campaign.name,
                     campaignID: campaign.id,
@@ -70,7 +90,7 @@ module.exports = {
         } catch (error) {
             console.log("ERROR UPDATECONTACTS() ---", error);
         }
-    },
+    }
 
     airtableToMailshake(contacts) {
         try {
@@ -92,5 +112,5 @@ module.exports = {
         } catch (error) {
             console.log("ERROR AIRTABLETOMAILSHAKE() ---", error);
         }
-    },
+    }
 };
