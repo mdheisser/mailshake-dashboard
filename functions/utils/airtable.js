@@ -1,3 +1,4 @@
+const { Container } = require("@material-ui/core");
 const Airtable = require("airtable");
 const moment = require("moment");
 
@@ -96,15 +97,15 @@ module.exports = class AirtableApi {
         try {
             return contacts.map((contact) => {
                 return {
-                    emailAddress: contact.email_first,
-                    fullName: contact.first_name,
+                    emailAddress: contact.email_first || contact.Email,
+                    fullName: contact.first_name || contact["First Name"],
                     fields: {
-                        city: contact.city,
-                        company: contact.company_name,
-                        "First Line": contact["First Line"] || "",
-                        job: contact.job_title,
-                        "Last Name": contact.last_name,
-                        "LinkedIn Page": contact.url,
+                        city: contact.city || "",
+                        company: contact.company_name || contact["Company Name"],
+                        "First Line": contact["First Line"] || contact["FIRST LINE"] || "",
+                        job: contact.job_title || "",
+                        "Last Name": contact.last_name || contact["Last Name"],
+                        "LinkedIn Page": contact.url || "",
                         recordID: contact.recordID,
                     },
                 };
