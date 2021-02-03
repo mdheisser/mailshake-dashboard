@@ -16,13 +16,11 @@ module.exports = async (event) => {
 
         const mailshakeContacts = Airtable.airtableToMailshake(airtableContacts);
 
-        console.log(mailshakeContacts);
+        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        await Mailshake.addToCampaign(campaign.id, mailshakeContacts);
 
-        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
-        // await Mailshake.addToCampaign(campaign.id, mailshakeContacts);
-
-        // await summaAirtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
-        // await summaAirtable.updateContacts(foundUser.airtableBase, airtableContacts, campaign);
+        await summaAirtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
+        await summaAirtable.updateContacts(foundUser.airtableBase, airtableContacts, campaign);
 
         return {
             statusCode: 200,
