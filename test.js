@@ -19,7 +19,7 @@ const AirtableApi = require("./functions/utils/airtable");
         // const campaigns = await Mailshake.listCampaigns();
         // console.log(campaigns);
         // ROOFTEK - AIRTABLE
-        // const Airtable = new AirtableApi("key2tZxeaXDfyBJ9k");
+        // const Airtable = new AirtableApi(key);
         // const campaign = await Airtable.getCampaign("app115xQzw1jhn5U8");
         // console.log(campaign);
         // await Airtable.updateCampaign("app115xQzw1jhn5U8", campaign.recordID);
