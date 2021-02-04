@@ -5,15 +5,15 @@ const AirtableApi = require("./functions/utils/airtable");
 
 (async () => {
     try {
-        // const client = "Rooftek";
-        // // const client = "Summa Media";
-        // await fetch(
-        //     "https://mailshake-dashboard-151ac0.netlify.live/.netlify/functions/clientMailshake",
-        //     {
-        //         method: "POST",
-        //         body: JSON.stringify(client),
-        //     }
-        // );
+        const client = "Rooftek";
+        // const client = "Summa Media";
+        await fetch(
+            "https://mailshake-dashboard-67a675.netlify.live/.netlify/functions/clientMailshake",
+            {
+                method: "POST",
+                body: JSON.stringify(client),
+            }
+        );
         // ROOFTEK
         // const Mailshake = new MailShakeApi(api);
         // const campaigns = await Mailshake.listCampaigns();
