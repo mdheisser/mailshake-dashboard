@@ -8,7 +8,7 @@ const AirtableApi = require("./functions/utils/airtable");
         const client = "Rooftek";
         // const client = "Summa Media";
         await fetch(
-            "https://mailshake-dashboard-67a675.netlify.live/.netlify/functions/clientMailshake",
+            "https://mailshake-dashboard-f0ca17.netlify.live/.netlify/functions/clientMailshake",
             {
                 method: "POST",
                 body: JSON.stringify(client),
