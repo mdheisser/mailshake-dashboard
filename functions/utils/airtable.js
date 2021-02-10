@@ -92,6 +92,16 @@ module.exports = class AirtableApi {
         }
     }
 
+    async updateContact(baseID, recordID, updatedFields) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            await base("First Line Ready").update(recordID, updatedFields);
+        } catch (error) {
+            console.log("ERROR UPDATECONTACTS() ---", error);
+        }
+    }
+
     airtableToMailshake(contacts) {
         try {
             return contacts.map((contact) => {
