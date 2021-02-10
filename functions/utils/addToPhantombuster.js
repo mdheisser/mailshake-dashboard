@@ -2,7 +2,8 @@ require("dotenv").config();
 
 const MailShakeApi = require("./mailshake");
 const AirtableApi = require("./airtable");
-const { appendProspect } = require("./googleSheets");
+const GoogleSpreadsheetApi = require("./googleSheets");
+
 const users = require("../../src/db/users");
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
@@ -14,24 +15,29 @@ module.exports = async (event) => {
 
         const foundUser = users.find((user) => user.client === client);
 
-        // get campaign
-        // see if contact responded
-        // IF responded
-        // update airtable
-        // ELSE not responded
-        // send to phantombuster URL finder
-        // const prospect = await appendProspect(res.client);
-
         const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
         const listOfReplies = await Mailshake.getEmailAction(campaignID, "replied");
         const emailsReplied = listOfReplies.map((reply) => reply.emailAddress);
 
         if (emailsReplied.includes(email)) {
-            await Airtable.updateContacts(foundUser.airtableBase, airtableContacts, campaign);
-
-            // need to update "updateContacts method to receive 'fields' argument"
+            await Airtable.updateContact(foundUser.airtableBase, recordID, { Responded: true });
         } else {
-            const prospect = await Airtable.getContacts(baseID, recordID);
+            const prospect = await Airtable.getContact(foundUser.airtableBase, recordID);
+
+            const firstName = prospect.first_name || prospect["First Name"];
+            const lastName = prospect.last_name || prospect["Last Name"];
+            const company = prospect.company_name || prospect["Company Name"];
+
+            const GoogleSpreadsheet = new GoogleSpreadsheetApi(foundUser.googleSheetId);
+            const data = await GoogleSpreadsheet.appendProspect([
+                `${firstName} ${lastName} ${company}`,
+            ]);
+
+            if (data.length > 0) {
+                await Airtable.updateContact(foundUser.airtableBase, recordID, {
+                    "In Google Sheets": true,
+                });
+            }
         }
 
         return {

@@ -48,6 +48,16 @@ module.exports = class AirtableApi {
         }
     }
 
+    async getContact(baseID, recordID) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            return await (await base("First Line Ready").find(recordID)).fields;
+        } catch (error) {
+            console.log("ERROR GETCONTACTS() ---", error);
+        }
+    }
+
     async getContacts(baseID) {
         try {
             const base = await this.assignAirtable(baseID);

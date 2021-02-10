@@ -2,12 +2,27 @@ require("dotenv").config();
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 
-// Initialize the sheet - doc ID is the long id in the sheets URL
-const doc = new GoogleSpreadsheet("1PluaeGSR51jXdVFb0AuzQDYJ9DvcryptJlKuIMtYvdM");
+module.exports = class GoogleSpreadsheetApi {
+    constructor(doc) {
+        if (!doc) {
+            throw new Error("Using GoogleSheets requires a docs ID.");
+        }
 
-module.exports = {
+        this.doc = doc;
+    }
+
+    assignDoc() {
+        try {
+            return new GoogleSpreadsheet(this.doc);
+        } catch (error) {
+            console.log("ERROR ASSIGNDOC ---", error);
+        }
+    }
+
     async appendProspect(data) {
         try {
+            const doc = await this.assignDoc(this.doc);
+
             // Initialize Auth
             await doc.useServiceAccountAuth({
                 client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -25,5 +40,5 @@ module.exports = {
         } catch (error) {
             console.log("ERROR APPENDPROSPECT ---", error);
         }
-    },
+    }
 };

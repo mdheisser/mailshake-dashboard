@@ -3,26 +3,42 @@ const fetch = require("node-fetch");
 const MailShakeApi = require("./functions/utils/mailshake");
 const AirtableApi = require("./functions/utils/airtable");
 
+const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
+
 (async () => {
     try {
         // const client = "Rooftek";
-        const client = "Summa Media";
-        await fetch(
-            "https://mailshake-dashboard-3cfe5e.netlify.live/.netlify/functions/clientMailshake",
-            {
-                method: "POST",
-                body: JSON.stringify(client),
-            }
-        );
+        // const client = "Summa Media";
+        // await fetch(
+        //     "https://mailshake-dashboard-3cfe5e.netlify.live/.netlify/functions/clientMailshake",
+        //     {
+        //         method: "POST",
+        //         body: JSON.stringify(client),
+        //     }
+        // );
         // ROOFTEK
-        // const Mailshake = new MailShakeApi("5c5486f2-2237-4363-8ccf-2e862b54f687");
+        // const Mailshake = new MailShakeApi(api);
         // const campaign = await Mailshake.getCampaign(660899);
         // const listReplies = await Mailshake.getEmailAction(660899, "replied");
         // const emailsReplied = listReplies.map((reply) => reply.emailAddress);
-        // console.log(emailsReplied);
+        // console.log(listReplies);
+        //
+        //
+        // GOOGLE SHEETS
+        const GoogleSpreadsheet = new GoogleSpreadsheetApi(
+            "18HJ7UdA6BC4J89EQLinI9rsWfxO2EEzeF5hn3xXcct8"
+        );
+        const data = await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
+        //
+        //
         // SUMMA - AIRTABLE
-        // const Airtable = new AirtableApi("key2tZxeaXDfyBJ9k");
-        // const airtableContacts = await Airtable.getContacts("appPfAkOluijuGY1T");
+        // const Airtable = new AirtableApi(api);
+        // const prospect = await Airtable.getContact("appPfAkOluijuGY1T", "recBw3M77awRVj5fP");
+        // console.log(prospect);
+        // console.log([
+        //     `${prospect.first_name} ${prospect.last_name} ${prospect.company_name}`,
+        //     "recordID",
+        // ]);
         // const campaign = await Airtable.getCampaign("appPfAkOluijuGY1T");
         // console.log(campaign);
         // const today = moment(new Date()).format("MM/DD/YYYY");

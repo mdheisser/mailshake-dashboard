@@ -6,7 +6,7 @@ module.exports = [
         mailshakeApi: process.env.REACT_APP_SUMMA_MEDIA,
         airtableApi: process.env.AIRTABLE_API_KEY,
         airtableBase: "appPfAkOluijuGY1T",
-        googleSheetId: "123",
+        googleSheetId: "18HJ7UdA6BC4J89EQLinI9rsWfxO2EEzeF5hn3xXcct8",
     },
     {
         client: "Just Roofs And Gutters",
@@ -41,7 +41,7 @@ module.exports = [
         mailshakeApi: process.env.REACT_APP_ROOFTEK,
         airtableApi: process.env.AIRTABLE_API_KEY,
         airtableBase: "app115xQzw1jhn5U8",
-        googleSheetId: "123",
+        googleSheetId: "1a_ngOoI8jB0iL9zN57z-v2PA4ZbhYhS-LZeqRnTDXbw",
     },
     {
         client: "Custom Installations",
