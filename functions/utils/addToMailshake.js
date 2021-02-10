@@ -1,11 +1,15 @@
 require("dotenv").config();
 
+const moment = require("moment");
+
 const MailShakeApi = require("./mailshake");
 const AirtableApi = require("./airtable");
 
 const users = require("../../src/db/users");
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
+
+const today = moment(new Date()).format("MM/DD/YYYY");
 
 module.exports = async (event) => {
     try {
@@ -23,7 +27,25 @@ module.exports = async (event) => {
             await Mailshake.addToCampaign(campaign.id, mailshakeContacts);
 
             await Airtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
-            await Airtable.updateContacts(foundUser.airtableBase, airtableContacts, campaign);
+
+            const updatedFields = {
+                "In Mailshake": true,
+                Campaign: campaign.name,
+                campaignID: campaign.id,
+                "Mailshake Upload Date": today,
+            };
+
+            for (let airtableContact of airtableContacts) {
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 500);
+                });
+
+                await Airtable.updateContact(
+                    foundUser.airtableBase,
+                    airtableContact.recordID,
+                    updatedFields
+                );
+            }
         }
 
         return {

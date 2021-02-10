@@ -69,29 +69,6 @@ module.exports = class AirtableApi {
         }
     }
 
-    async updateContacts(baseID, contacts, campaign) {
-        try {
-            const base = await this.assignAirtable(baseID);
-
-            const today = moment(new Date()).format("MM/DD/YYYY");
-
-            for (let contact of contacts) {
-                await new Promise((resolve) => {
-                    setTimeout(resolve, 500);
-                });
-
-                await base("First Line Ready").update(contact.recordID, {
-                    "In Mailshake": true,
-                    Campaign: campaign.name,
-                    campaignID: campaign.id,
-                    "Mailshake Upload Date": today,
-                });
-            }
-        } catch (error) {
-            console.log("ERROR UPDATECONTACTS() ---", error);
-        }
-    }
-
     async updateContact(baseID, recordID, updatedFields) {
         try {
             const base = await this.assignAirtable(baseID);
