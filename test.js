@@ -9,13 +9,10 @@ const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
     try {
         // const client = "Rooftek";
         // const client = "Summa Media";
-        // await fetch(
-        //     "https://mailshake-dashboard-3cfe5e.netlify.live/.netlify/functions/clientMailshake",
-        //     {
-        //         method: "POST",
-        //         body: JSON.stringify(client),
-        //     }
-        // );
+        // await fetch("https://mailshake-dashboard.netlify.app/.netlify/functions/clientMailshake", {
+        //     method: "POST",
+        //     body: JSON.stringify(client),
+        // });
         // ROOFTEK
         // const Mailshake = new MailShakeApi(api);
         // const campaign = await Mailshake.getCampaign(660899);
@@ -28,7 +25,7 @@ const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
         // const GoogleSpreadsheet = new GoogleSpreadsheetApi(
         //     "18HJ7UdA6BC4J89EQLinI9rsWfxO2EEzeF5hn3xXcct8"
         // );
-        // const data = await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
+        // await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
         //
         //
         // SUMMA - AIRTABLE
