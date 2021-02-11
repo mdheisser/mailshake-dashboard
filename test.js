@@ -28,7 +28,6 @@ const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
             "18HJ7UdA6BC4J89EQLinI9rsWfxO2EEzeF5hn3xXcct8"
         );
         await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
-        // console.log(process.env.GOOGLE_PRIVATE_KEY_2);
         //
         //
         // SUMMA - AIRTABLE
