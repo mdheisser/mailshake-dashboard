@@ -1,4 +1,4 @@
-const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
+const GoogleSpreadsheetApi = require("./utils/googleSheets");
 
 exports.handler = async (event) => {
     try {
