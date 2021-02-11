@@ -24,6 +24,7 @@ module.exports = async (event) => {
         } else {
             const prospect = await Airtable.getContact(foundUser.airtableBase, recordID);
 
+            // data comes from coStar or icy leadz
             const firstName = prospect.first_name || prospect["First Name"];
             const lastName = prospect.last_name || prospect["Last Name"];
             const company = prospect.company_name || prospect["Company Name"];
