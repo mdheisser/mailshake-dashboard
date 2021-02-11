@@ -19,6 +19,7 @@ module.exports = class GoogleSpreadsheetApi {
         }
     }
 
+    // add contact
     async appendProspect(data) {
         try {
             const doc = await this.assignDoc(this.doc);
