@@ -100,6 +100,7 @@ module.exports = class AirtableApi {
                         company: contact.company_name || contact["Company Name"],
                         "First Line": contact["First Line"] || contact["FIRST LINE"] || "",
                         job: contact.job_title || "",
+                        "First Name": contact.first_name || contact["First Name"],
                         "Last Name": contact.last_name || contact["Last Name"],
                         "LinkedIn Page": contact.url || "",
                         recordID: contact.recordID,
