@@ -63,17 +63,23 @@ module.exports = class AirtableApi {
             const base = await this.assignAirtable(baseID);
 
             const res = await base("First Line Ready")
-                .select({ maxRecords: 5, view: "Grid view" })
+                .select({ maxRecords: 5, view: "First Lines" })
                 .firstPage();
 
-            return res.map((contact) => {
-                const fields = contact.fields;
-
-                return {
-                    ...fields,
-                    recordID: contact.getId(),
-                };
+            const contacts = res.map((contact) => {
+                if ("Mailshake Ready" in contact.fields) {
+                    return {
+                        ...contact.fields,
+                        recordID: contact.getId(),
+                    };
+                }
             });
+
+            if (contacts[0] === undefined) {
+                return [];
+            }
+
+            return contacts;
         } catch (error) {
             console.log("ERROR GETCONTACTS() ---", error);
         }
