@@ -9,6 +9,13 @@ module.exports = [
         googleSheetId: "18HJ7UdA6BC4J89EQLinI9rsWfxO2EEzeF5hn3xXcct8",
     },
     {
+        client: "Hornet",
+        mailshakeApi: process.env.REACT_APP_HORNET,
+        airtableApi: process.env.AIRTABLE_API_KEY,
+        airtableBase: "appgkq8u5mAyVJ6HU",
+        googleSheetId: "1JEGup18CLuqATWKPcJYF6jUBXWtQNBvSjxPBVZaPZLk",
+    },
+    {
         client: "Just Roofs And Gutters",
         mailshakeApi: process.env.REACT_APP_JUST_ROOFS_AND_GUTTERS,
         airtableApi: process.env.AIRTABLE_API_KEY,
