@@ -9,7 +9,7 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Hornet");
+const foundUser = users.find((user) => user.client === "Integrity");
 
 (async () => {
     try {
@@ -28,9 +28,9 @@ const foundUser = users.find((user) => user.client === "Hornet");
         // });
         //
         // MAILSHAKE
-        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
-        // const campaigns = await Mailshake.listCampaigns();
-        // console.log(campaigns);
+        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        const campaigns = await Mailshake.listCampaigns();
+        console.log(campaigns);
         //
         //
         // GOOGLE SHEETS

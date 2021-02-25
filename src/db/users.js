@@ -20,7 +20,7 @@ module.exports = [
         mailshakeApi: process.env.REACT_APP_JUST_ROOFS_AND_GUTTERS,
         airtableApi: process.env.AIRTABLE_API_KEY,
         airtableBase: "appEEsvEbsFQR2auL",
-        googleSheetId: "123",
+        googleSheetId: "1o8D2RTQZuqm1H1X2wLMTYa0RobrMa5wnQznp3fVYgLo",
     },
     {
         client: "Truox",
@@ -34,7 +34,7 @@ module.exports = [
         mailshakeApi: process.env.REACT_APP_INTEGRITY,
         airtableApi: process.env.AIRTABLE_API_KEY,
         airtableBase: "appLVlpoe7RYAQfm9",
-        googleSheetId: "123",
+        googleSheetId: "1RBZyhTr0D7FusS9U99s9aGjnpo_45Wafm51ctRMP7Mc",
     },
     {
         client: "Farha",
