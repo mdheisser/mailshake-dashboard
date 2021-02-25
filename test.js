@@ -28,9 +28,9 @@ const foundUser = users.find((user) => user.client === "Integrity");
         // });
         //
         // MAILSHAKE
-        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
-        const campaigns = await Mailshake.listCampaigns();
-        console.log(campaigns);
+        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        // const campaigns = await Mailshake.listCampaigns();
+        // console.log(campaigns);
         //
         //
         // GOOGLE SHEETS
