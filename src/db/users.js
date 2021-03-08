@@ -23,10 +23,10 @@ module.exports = [
         googleSheetId: "1o8D2RTQZuqm1H1X2wLMTYa0RobrMa5wnQznp3fVYgLo",
     },
     {
-        client: "Truox",
-        mailshakeApi: process.env.REACT_APP_TRUOX,
+        client: "Titan",
+        mailshakeApi: process.env.REACT_APP_TITAN,
         airtableApi: process.env.AIRTABLE_API_KEY,
-        airtableBase: "appHyxUS12LyQvWEW",
+        airtableBase: "appqOh4lpuC1DTZS6",
         googleSheetId: "123",
     },
     {

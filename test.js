@@ -9,14 +9,11 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Summa Media");
+const foundUser = users.find((user) => user.client === "Titan");
 
 (async () => {
     try {
-        // const Mailshake = new MailShakeApi("726811af-7c60-4fa4-8cb4-85c443779855");
-        // // nick.peret lead gen 1.5.21 --> 646229
-        // // nperet lead gen 1.5.21 --> 646218
-        // // nickperet lead gen 1.5.21 --> 646146
+        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
         // const listOfReplies = await Mailshake.getEmailAction(646229, "replied");
         // const emailsReplied = listOfReplies.map((reply) => reply.emailAddress);
         // console.log(emailsReplied);
