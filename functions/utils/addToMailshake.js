@@ -17,7 +17,7 @@ module.exports = async (event) => {
 
         const foundUser = users.find((user) => user.client === client);
 
-        const campaign = await Airtable.getCampaign(foundUser.airtableBase);
+        const [campaign] = await Airtable.getCampaign(foundUser.airtableBase);
         const airtableContacts = await Airtable.getContacts(foundUser.airtableBase);
 
         if (airtableContacts.length > 0) {

@@ -9,7 +9,7 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Just Roofs And Gutters");
+const foundUser = users.find((user) => user.client === "Summa Media");
 
 (async () => {
     try {
@@ -28,9 +28,9 @@ const foundUser = users.find((user) => user.client === "Just Roofs And Gutters")
         // });
         //
         // MAILSHAKE
-        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
-        const campaigns = await Mailshake.listCampaigns();
-        console.log(campaigns);
+        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        // const campaigns = await Mailshake.listCampaigns();
+        // console.log(campaigns);
         //
         //
         // GOOGLE SHEETS
@@ -40,14 +40,10 @@ const foundUser = users.find((user) => user.client === "Just Roofs And Gutters")
         // await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
         //
         // SUMMA - AIRTABLE
-        // const Airtable = new AirtableApi(api);
-        // const prospect = await Airtable.getContact("appPfAkOluijuGY1T", "recBw3M77awRVj5fP");
-        // console.log(prospect);
-        // console.log([
-        //     `${prospect.first_name} ${prospect.last_name} ${prospect.company_name}`,
-        //     "recordID",
-        // ]);
-        // const campaign = await Airtable.getCampaign("appPfAkOluijuGY1T");
+        // const Airtable = new AirtableApi(foundUser.airtableApi);
+        // const [campaign] = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
+        // const [campaign] = await Airtable.getCampaign(foundUser.airtableBase);
+        // const campaign = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
         // console.log(campaign);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);

@@ -18,19 +18,20 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getCampaign(baseID) {
+    async getCampaign(baseID, view = "Alternate") {
         try {
             const base = await this.assignAirtable(baseID);
 
-            const [res] = await base("Campaigns")
-                .select({ maxRecords: 1, view: "Grid view" })
+            const res = await base("Campaigns")
+                .select({ maxRecords: view === "Alternate" ? 1 : 5, view })
                 .firstPage();
 
-            return {
-                recordID: res.getId(),
-                name: res.fields.Campaign,
-                id: res.fields.campaignID,
-            };
+            return res.map((record) => ({
+                recordID: record.getId(),
+                name: record.fields.Campaign,
+                id: record.fields.campaignID,
+                tag: record.fields.Tag || "",
+            }));
         } catch (error) {
             console.log("ERROR GETCAMPAIGN() ---", error);
         }
@@ -58,11 +59,11 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getContacts(baseID) {
+    async getContacts(baseID, baseName = "First Line Ready") {
         try {
             const base = await this.assignAirtable(baseID);
 
-            const res = await base("First Line Ready")
+            const res = await base(baseName)
                 .select({ maxRecords: 5, view: "First Lines" })
                 .firstPage();
 
@@ -102,13 +103,17 @@ module.exports = class AirtableApi {
                     emailAddress: contact.email_first || contact.Email,
                     fullName: contact.first_name || contact["First Name"],
                     fields: {
-                        city: contact.city || "",
-                        company: contact.company_name || contact["Company Name"],
+                        city: contact.city || contact.City || "",
+                        company:
+                            contact.company_name ||
+                            contact["Company Name"] ||
+                            contact.Company ||
+                            "",
                         "First Line": contact["First Line"] || contact["FIRST LINE"] || "",
-                        job: contact.job_title || "",
+                        job: contact.job_title || contact.Job || "",
                         "First Name": contact.first_name || contact["First Name"],
                         "Last Name": contact.last_name || contact["Last Name"],
-                        "LinkedIn Page": contact.url || "",
+                        "LinkedIn Page": contact.url || contact["LinkedIn Page"] || "",
                         recordID: contact.recordID,
                     },
                 };
