@@ -36,12 +36,12 @@ const foundUser = users.find((user) => user.client === "Titan");
         // );
         // await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
         //
-        // SUMMA - AIRTABLE
+        // AIRTABLE
         // const Airtable = new AirtableApi(foundUser.airtableApi);
-        // const [campaign] = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
-        // const [campaign] = await Airtable.getCampaign(foundUser.airtableBase);
         // const campaign = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
         // console.log(campaign);
+        // const contacts = await Airtable.getContacts(foundUser.airtableBase, foundUser.numContacts);
+        // console.log(contacts.length);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
