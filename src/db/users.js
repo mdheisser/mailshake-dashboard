@@ -21,7 +21,7 @@ module.exports = [
         client: "Just Roofs And Gutters",
         mailshakeApi: process.env.REACT_APP_JUST_ROOFS_AND_GUTTERS,
         airtableApi: process.env.AIRTABLE_API_KEY,
-        numContacts: 15,
+        numContacts: 5,
         airtableBase: "appEEsvEbsFQR2auL",
         googleSheetId: "1o8D2RTQZuqm1H1X2wLMTYa0RobrMa5wnQznp3fVYgLo",
     },
