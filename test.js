@@ -9,7 +9,7 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Titan");
+const foundUser = users.find((user) => user.client === "Summa Media");
 
 (async () => {
     try {
@@ -40,7 +40,7 @@ const foundUser = users.find((user) => user.client === "Titan");
         // const Airtable = new AirtableApi(foundUser.airtableApi);
         // const campaign = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
         // console.log(campaign);
-        // const contacts = await Airtable.getContacts(foundUser.airtableBase, foundUser.numContacts);
+        // const contacts = await Airtable.getContacts(foundUser.airtableBase);
         // console.log(contacts.length);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);

@@ -22,7 +22,6 @@ module.exports = async (event) => {
         for (let campaign of campaigns) {
             const airtableContacts = await Airtable.getContacts(
                 foundUser.airtableBase,
-                foundUser.numContacts,
                 `First Line Ready - ${campaign.tag}`
             );
 
