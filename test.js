@@ -9,7 +9,7 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Farha");
+const foundUser = users.find((user) => user.client === "Summa Media");
 
 (async () => {
     try {
