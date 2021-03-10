@@ -9,7 +9,7 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Summa Media");
+const foundUser = users.find((user) => user.client === "Farha");
 
 (async () => {
     try {
@@ -29,7 +29,6 @@ const foundUser = users.find((user) => user.client === "Summa Media");
         // const campaigns = await Mailshake.listCampaigns();
         // console.log(campaigns);
         //
-        //
         // GOOGLE SHEETS
         // const GoogleSpreadsheet = new GoogleSpreadsheetApi(
         //     "1JEGup18CLuqATWKPcJYF6jUBXWtQNBvSjxPBVZaPZLk"
@@ -38,10 +37,10 @@ const foundUser = users.find((user) => user.client === "Summa Media");
         //
         // AIRTABLE
         // const Airtable = new AirtableApi(foundUser.airtableApi);
-        // const campaign = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
-        // console.log(campaign);
-        // const contacts = await Airtable.getContacts(foundUser.airtableBase);
-        // console.log(contacts.length);
+        // const campaigns = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
+        // for (let campaign of campaigns) {
+        //     campaign.tag !== "" && console.log(campaign);
+        // }
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

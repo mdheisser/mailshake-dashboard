@@ -20,38 +20,38 @@ module.exports = async (event) => {
         const campaigns = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
 
         for (let campaign of campaigns) {
-            const airtableContacts = await Airtable.getContacts(
-                foundUser.airtableBase,
-                `First Line Ready - ${campaign.tag}`
-            );
+            if (campaign.tag !== "") {
+                const airtableContacts = await Airtable.getContacts(
+                    foundUser.airtableBase,
+                    `First Line Ready - ${campaign.tag}`
+                );
 
-            console.log(airtableContacts);
+                if (airtableContacts.length > 0) {
+                    const mailshakeContacts = Airtable.airtableToMailshake(airtableContacts);
 
-            if (airtableContacts.length > 0) {
-                const mailshakeContacts = Airtable.airtableToMailshake(airtableContacts);
+                    const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+                    await Mailshake.addToCampaign(campaign.id, mailshakeContacts);
 
-                const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
-                await Mailshake.addToCampaign(campaign.id, mailshakeContacts);
+                    await Airtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
 
-                await Airtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
+                    const updatedFields = {
+                        "In Mailshake": true,
+                        Campaign: campaign.name,
+                        campaignID: campaign.id,
+                        "Mailshake Upload Date": today,
+                    };
 
-                const updatedFields = {
-                    "In Mailshake": true,
-                    Campaign: campaign.name,
-                    campaignID: campaign.id,
-                    "Mailshake Upload Date": today,
-                };
+                    for (let airtableContact of airtableContacts) {
+                        await new Promise((resolve) => {
+                            setTimeout(resolve, 500);
+                        });
 
-                for (let airtableContact of airtableContacts) {
-                    await new Promise((resolve) => {
-                        setTimeout(resolve, 500);
-                    });
-
-                    await Airtable.updateContact(
-                        foundUser.airtableBase,
-                        airtableContact.recordID,
-                        updatedFields
-                    );
+                        await Airtable.updateContact(
+                            foundUser.airtableBase,
+                            airtableContact.recordID,
+                            updatedFields
+                        );
+                    }
                 }
             }
         }
