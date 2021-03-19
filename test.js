@@ -9,7 +9,7 @@ const AirtableApi = require("./functions/utils/airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
-const foundUser = users.find((user) => user.client === "Summa Media");
+const foundUser = users.find((user) => user.client === "Rooftek");
 
 (async () => {
     try {
@@ -25,9 +25,14 @@ const foundUser = users.find((user) => user.client === "Summa Media");
         // });
         //
         // MAILSHAKE
-        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
         // const campaigns = await Mailshake.listCampaigns();
         // console.log(campaigns);
+
+        const listOfReplies = await Mailshake.getEmailAction(681215, "replied");
+        // const emailsReplied = listOfReplies.map((reply) => reply.emailAddress);
+        console.log(listOfReplies);
+        console.log(listOfReplies.length);
         //
         // GOOGLE SHEETS
         // const GoogleSpreadsheet = new GoogleSpreadsheetApi(
@@ -39,7 +44,14 @@ const foundUser = users.find((user) => user.client === "Summa Media");
         // const Airtable = new AirtableApi(foundUser.airtableApi);
         // const campaigns = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
         // for (let campaign of campaigns) {
-        //     campaign.tag !== "" && console.log(campaign);
+        //     if (campaign.tag !== "") {
+        //         console.log(`First Line Ready - ${campaign.tag}`);
+        //         const airtableContacts = await Airtable.getContacts(
+        //             foundUser.airtableBase,
+        //             `First Line Ready - ${campaign.tag}`
+        //         );
+        //         console.log(airtableContacts);
+        //     }
         // }
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
