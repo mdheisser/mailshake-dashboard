@@ -64,4 +64,11 @@ module.exports = [
         airtableBase: "appjxmBfr90miizyO",
         googleSheetId: "123",
     },
+    {
+        client: "All Area",
+        mailshakeApi: process.env.REACT_APP_ALL_AREA,
+        airtableApi: process.env.AIRTABLE_API_KEY,
+        airtableBase: "apps7T6bpqSy7XOfa",
+        googleSheetId: "123",
+    },
 ];
