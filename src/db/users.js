@@ -71,4 +71,11 @@ module.exports = [
         airtableBase: "apps7T6bpqSy7XOfa",
         googleSheetId: "123",
     },
+    {
+        client: "Sunshine Property Group",
+        mailshakeApi: process.env.REACT_APP_ALL_AREA,
+        airtableApi: process.env.AIRTABLE_API_KEY,
+        airtableBase: "apps7T6bpqSy7XOfa",
+        googleSheetId: "123",
+    },
 ];
