@@ -25,14 +25,13 @@ const foundUser = users.find((user) => user.client === "Rooftek");
         // });
         //
         // MAILSHAKE
-        const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
+        // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
         // const campaigns = await Mailshake.listCampaigns();
         // console.log(campaigns);
-
-        const listOfReplies = await Mailshake.getEmailAction(681215, "replied");
+        // const listOfReplies = await Mailshake.getEmailAction(681215, "replied");
         // const emailsReplied = listOfReplies.map((reply) => reply.emailAddress);
-        console.log(listOfReplies);
-        console.log(listOfReplies.length);
+        // console.log(listOfReplies);
+        // console.log(listOfReplies.length);
         //
         // GOOGLE SHEETS
         // const GoogleSpreadsheet = new GoogleSpreadsheetApi(
