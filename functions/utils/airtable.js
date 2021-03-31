@@ -64,7 +64,7 @@ module.exports = class AirtableApi {
             const base = await this.assignAirtable(baseID);
 
             const res = await base(baseName)
-                .select({ maxRecords: 10, view: "First Lines" })
+                .select({ maxRecords: 5, view: "First Lines" })
                 .firstPage();
 
             const contacts = res.map((contact) => {
