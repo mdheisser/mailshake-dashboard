@@ -23,6 +23,13 @@ module.exports = [
         googleSheetId: "1o8D2RTQZuqm1H1X2wLMTYa0RobrMa5wnQznp3fVYgLo",
     },
     {
+        client: "Just Roofs And Gutters-Insurance",
+        mailshakeApi: process.env.REACT_APP_JUST_ROOFS_AND_GUTTERS,
+        airtableApi: process.env.AIRTABLE_API_KEY,
+        airtableBase: "appKwDFoYYRlsXjDU",
+        googleSheetId: "",
+    },
+    {
         client: "Titan",
         mailshakeApi: process.env.REACT_APP_TITAN,
         airtableApi: process.env.AIRTABLE_API_KEY,
