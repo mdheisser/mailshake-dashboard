@@ -35,10 +35,10 @@ module.exports = async (event) => {
                     await Airtable.updateCampaign(foundUser.airtableBase, campaign.recordID);
 
                     const updatedFields = {
-                        "In Mailshake": true,
+                        "In Campaign": true,
                         Campaign: campaign.name,
                         campaignID: campaign.id,
-                        "Mailshake Upload Date": today,
+                        "Upload Date": today,
                     };
 
                     for (let airtableContact of airtableContacts) {
