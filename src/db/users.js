@@ -85,4 +85,11 @@ module.exports = [
         airtableBase: "app08tyarLfM0A1G4",
         googleSheetId: "123",
     },
+    {
+        client: "HD Roofing",
+        mailshakeApi: process.env.REACT_APP_HD_ROOFING,
+        airtableApi: process.env.AIRTABLE_API_KEY,
+        airtableBase: "applMh4PTJl6JI8yS",
+        googleSheetId: "123",
+    },
 ];
