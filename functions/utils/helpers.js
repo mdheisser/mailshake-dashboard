@@ -20,49 +20,105 @@ module.exports = {
         });
     },
 
+    // campaignsToRun(campaigns) {
+    //     let textCampaigns = [];
+
+    //     campaigns.forEach((campaign) => {
+    //         // check if client is in textCampaigns
+    //         const isClientPresent = textCampaigns.some(
+    //             (newCampaign) => newCampaign.Client === campaign.Client
+    //         );
+
+    //         if ("Type" in campaign && campaign.Type === "Specific") {
+    //             return textCampaigns.push(campaign);
+    //         }
+
+    //         // check if multiple same clients exist in campaigns
+    //         const clientCampaigns = campaigns.filter((obj) => {
+    //             if (!("Type" in obj)) {
+    //                 return obj.Client === campaign.Client;
+    //             }
+    //         });
+
+    //         if (clientCampaigns.length > 1 && !isClientPresent) {
+    //             let clientAdded = false;
+
+    //             clientCampaigns.some((obj) => {
+    //                 if (!("Last Updated" in obj)) {
+    //                     clientAdded = true;
+    //                     return textCampaigns.push(obj);
+    //                 }
+    //             });
+
+    //             const [nextCampaign] = clientCampaigns.sort(
+    //                 (a, b) => new Date(a["Last Updated"]) - new Date(b["Last Updated"])
+    //             );
+
+    //             !clientAdded && textCampaigns.push(nextCampaign);
+    //         }
+
+    //         if (clientCampaigns.length === 1) {
+    //             textCampaigns.push(campaign);
+    //         }
+    //     });
+
+    //     return textCampaigns;
+    // },
+
     campaignsToRun(campaigns) {
-        let textCampaigns = [];
+        let activeCampaigns = [];
 
-        campaigns.forEach((campaign) => {
-            // check if client is in textCampaigns
-            const isClientPresent = textCampaigns.some(
-                (newCampaign) => newCampaign.Client === campaign.Client
-            );
+        let clients = campaigns.map((campaign) => campaign.Client);
 
-            if ("Type" in campaign && campaign.Type === "Specific") {
-                return textCampaigns.push(campaign);
-            }
+        let individualClients = new Set(clients);
 
-            // check if multiple same clients exist in campaigns
-            const clientCampaigns = campaigns.filter((obj) => {
-                if (!("Type" in obj)) {
-                    return obj.Client === campaign.Client;
-                }
-            });
+        individualClients.forEach((client) => {
+            // new array of client's campaigns
+            const clientCampaigns = campaigns.filter((campaign) => campaign.Client === client);
 
-            if (clientCampaigns.length > 1 && !isClientPresent) {
-                let clientAdded = false;
-
-                clientCampaigns.some((obj) => {
-                    if (!("Last Updated" in obj)) {
-                        clientAdded = true;
-                        return textCampaigns.push(obj);
+            // add campaign if only one
+            if (clientCampaigns.length < 2) {
+                activeCampaigns.push(clientCampaigns[0]);
+            } else {
+                // add Type === "Specific" campaigns
+                clientCampaigns.forEach((campaign) => {
+                    if ("Type" in campaign && campaign.Type === "Specific") {
+                        activeCampaigns.push(campaign);
                     }
                 });
 
-                const [nextCampaign] = clientCampaigns.sort(
+                // campaigns without tag
+                let alternateCampaigns = clientCampaigns.filter((campaign) => {
+                    if (!("Tag" in campaign)) {
+                        return campaign;
+                    }
+                });
+
+                // campaigns with tag
+                let alternateCampaignTags = clientCampaigns.filter((campaign) => {
+                    if ("Tag" in campaign && !("Type" in campaign)) {
+                        return campaign;
+                    }
+                });
+
+                // !!IMPORTANT - need to check if "Last Update" is empty and add that campaign
+
+                // add campaign with furthest date
+                const [nextCampaign] = alternateCampaigns.sort(
                     (a, b) => new Date(a["Last Updated"]) - new Date(b["Last Updated"])
                 );
 
-                !clientAdded && textCampaigns.push(nextCampaign);
-            }
+                // add campaign with furthest date
+                const [nextCampaignTag] = alternateCampaignTags.sort(
+                    (a, b) => new Date(a["Last Updated"]) - new Date(b["Last Updated"])
+                );
 
-            if (clientCampaigns.length === 1) {
-                textCampaigns.push(campaign);
+                nextCampaign && activeCampaigns.push(nextCampaign);
+                nextCampaignTag && activeCampaigns.push(nextCampaignTag);
             }
         });
 
-        return textCampaigns;
+        return activeCampaigns;
     },
 
     mapContact(contacts) {

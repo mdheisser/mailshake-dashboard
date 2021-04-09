@@ -4,8 +4,16 @@ const fetch = require("node-fetch");
 
 const users = require("./src/db/users");
 
-const MailShakeApi = require("./functions/utils/Mailshake");
-const AirtableApi = require("./functions/utils/Airtable");
+const MailShakeApi = require("./functions/utils/mailshake");
+const AirtableApi = require("./functions/utils/airtable");
+
+const {
+    liveCampaigns,
+    campaignsToRun,
+    campaignsToRunUpdate,
+} = require("./functions/utils/helpers");
+
+const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
@@ -52,6 +60,18 @@ const foundUser = users.find((user) => user.client === "Rooftek");
         //         console.log(airtableContacts);
         //     }
         // }
+        //
+        // GET CAMPAIGNS
+        const getCampaigns = await Airtable.getCampaigns();
+        let campaigns = liveCampaigns(getCampaigns);
+        campaigns = campaignsToRun(campaigns);
+
+        // campaigns = campaigns.map((campaign) => ({
+        //     client: campaign.Client,
+        //     campaign: campaign.Campaign,
+        // }));
+
+        console.log(campaigns);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
