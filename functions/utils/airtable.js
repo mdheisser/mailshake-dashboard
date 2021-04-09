@@ -37,13 +37,30 @@ module.exports = class AirtableApi {
         }
     }
 
-    async updateCampaign(baseID, id) {
+    async getCampaigns() {
         try {
-            const base = await this.assignAirtable(baseID);
+            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
 
-            const today = moment(new Date()).format("MM/DD/YYYY");
+            const res = await base("Campaigns").select({ view: "Email" }).firstPage();
 
-            return await base("Campaigns").update(id, { "Last Upload": today });
+            const campaigns = res.map((campaign) => {
+                return {
+                    ...campaign.fields,
+                    recordID: campaign.getId(),
+                };
+            });
+
+            return campaigns;
+        } catch (error) {
+            console.log("ERROR GETCAMPAIGNS() ---", error);
+        }
+    }
+
+    async updateCampaign(recordID, updatedFields) {
+        try {
+            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
+
+            await base("Campaigns").update(recordID, updatedFields);
         } catch (error) {
             console.log("ERROR UPDATECAMPAIGN() ---", error);
         }
@@ -59,28 +76,24 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getContacts(baseID, baseName = "First Line Ready") {
+    async getContacts(baseID, view) {
         try {
             const base = await this.assignAirtable(baseID);
 
-            const res = await base(baseName)
-                .select({ maxRecords: 5, view: "First Lines" })
+            const res = await base("First Line Ready")
+                .select({
+                    maxRecords: 10,
+                    filterByFormula: "({Mailshake Ready} = 1)",
+                    view,
+                })
                 .firstPage();
 
-            const contacts = res.map((contact) => {
-                if ("Mailshake Ready" in contact.fields) {
-                    return {
-                        ...contact.fields,
-                        recordID: contact.getId(),
-                    };
-                }
-            });
+            const contacts = res.map((contact) => ({
+                ...contact.fields,
+                recordID: contact.getId(),
+            }));
 
-            if (contacts[0] === undefined) {
-                return [];
-            }
-
-            return contacts;
+            return contacts.length > 0 ? contacts : false;
         } catch (error) {
             console.log("ERROR GETCONTACTS() ---", error);
         }

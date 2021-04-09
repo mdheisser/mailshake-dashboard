@@ -2,8 +2,8 @@ require("dotenv").config();
 
 const moment = require("moment");
 
-const MailShakeApi = require("./mailshake");
-const AirtableApi = require("./airtable");
+const MailShakeApi = require("./Mailshake");
+const AirtableApi = require("./Airtable");
 
 const users = require("../../src/db/users");
 

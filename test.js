@@ -4,8 +4,8 @@ const fetch = require("node-fetch");
 
 const users = require("./src/db/users");
 
-const MailShakeApi = require("./functions/utils/mailshake");
-const AirtableApi = require("./functions/utils/airtable");
+const MailShakeApi = require("./functions/utils/Mailshake");
+const AirtableApi = require("./functions/utils/Airtable");
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
