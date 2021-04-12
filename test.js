@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const moment = require("moment");
+
 const fetch = require("node-fetch");
 
 const users = require("./src/db/users");
@@ -7,17 +9,15 @@ const users = require("./src/db/users");
 const MailShakeApi = require("./functions/utils/mailshake");
 const AirtableApi = require("./functions/utils/airtable");
 
-const {
-    liveCampaigns,
-    campaignsToRun,
-    campaignsToRunUpdate,
-} = require("./functions/utils/helpers");
+const { liveCampaigns, campaignsToRun, campaignsDueToday } = require("./functions/utils/helpers");
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const GoogleSpreadsheetApi = require("./functions/utils/googleSheets");
 
 const foundUser = users.find((user) => user.client === "Rooftek");
+
+const today = moment(new Date()).format("YYYY-MM-DD");
 
 (async () => {
     try {
@@ -64,12 +64,8 @@ const foundUser = users.find((user) => user.client === "Rooftek");
         // GET CAMPAIGNS
         const getCampaigns = await Airtable.getCampaigns();
         let campaigns = liveCampaigns(getCampaigns);
+        campaigns = campaignsDueToday(campaigns);
         campaigns = campaignsToRun(campaigns);
-
-        // campaigns = campaigns.map((campaign) => ({
-        //     client: campaign.Client,
-        //     campaign: campaign.Campaign,
-        // }));
 
         console.log(campaigns);
     } catch (error) {

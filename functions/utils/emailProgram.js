@@ -8,12 +8,13 @@ const AirtableApi = require("./airtable");
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
-const { liveCampaigns, campaignsToRun, mapContact } = require("./helpers");
+const { liveCampaigns, campaignsToRun, mapContact, campaignsDueToday } = require("./helpers");
 
 module.exports = async () => {
     try {
         const getCampaigns = await Airtable.getCampaigns();
         let campaigns = liveCampaigns(getCampaigns);
+        campaigns = campaignsDueToday(campaigns);
         campaigns = campaignsToRun(campaigns);
 
         for (let campaign of campaigns) {
