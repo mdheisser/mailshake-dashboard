@@ -1,1 +1,4 @@
-gcloud scheduler jobs create http Client-Outreach_HD-Roofing-2 --schedule="45 5 * * 1-6" --uri="https://mailshake-dashboard.netlify.app/.netlify/functions/clientMailshake" --message-body="HD Roofing" --http-method=POST --headers Content-Type=application/json --description="Add prospects to MailShake campaign" --time-zone="America/Denver"
+gcloud scheduler jobs create http Client-Outreach-Campaigns --schedule="45 5 * * 1-6" --uri="https://mailshake-dashboard.netlify.app/.netlify/functions/clientMailshake" --http-method=GET --headers Content-Type=application/json --description="Run" --time-zone="America/Denver"
+
+
+gcloud scheduler jobs create http Client-Outreach-Email-Invoker --schedule="45 5 * * 1-6" --uri="https://us-central1-summa-automations-302816.cloudfunctions.net/clientOutreachEmail" --http-method=GET  --description="Run all campaigns for each client" --time-zone="America/Denver"

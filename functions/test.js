@@ -1,4 +1,4 @@
-const addToMailshakeSpecific = require("./utils/addToMailshakeSpecific");
+const test = require("./utils/test");
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -7,7 +7,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        return await addToMailshakeSpecific(event);
+        return await test(event);
     } else {
         return {
             statusCode: 500,
