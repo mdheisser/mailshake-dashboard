@@ -12,26 +12,25 @@ module.exports = async (event) => {
         const res = JSON.parse(event.body);
         const { full_name, email, phone, campaign, message } = res;
 
-        // console.log(`Campaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}`);
-        console.log(res);
+        console.log(`Campaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}`);
         // console.log("\n------------------ RES END ------------------\n");
 
-        // const getCampaigns = await Airtable.getCampaigns("Text");
-        // const textCampaign = getCampaigns.filter(
-        //     (foundCampaign) => foundCampaign.Campaign === campaign.name
-        // );
+        const getCampaigns = await Airtable.getCampaigns("Text");
+        const textCampaign = getCampaigns.filter(
+            (foundCampaign) => foundCampaign.Campaign === campaign.name
+        );
 
-        // const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+        const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
 
-        // if (contact) {
-        //     const updatedFields = {
-        //         Responded: true,
-        //         Response: message.body,
-        //         "Responded Date": today,
-        //     };
+        if (contact) {
+            const updatedFields = {
+                Responded: true,
+                Response: message.body,
+                "Responded Date": today,
+            };
 
-        //     await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
-        // }
+            await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
+        }
 
         return {
             statusCode: 200,
