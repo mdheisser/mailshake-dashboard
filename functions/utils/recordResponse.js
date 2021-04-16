@@ -28,7 +28,7 @@ module.exports = async (event) => {
             const updatedFields = {
                 Responded: true,
                 Response: message.body,
-                "Responded Date": today,
+                "Response Date": today,
             };
 
             await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
