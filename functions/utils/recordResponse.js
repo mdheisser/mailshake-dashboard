@@ -12,11 +12,13 @@ module.exports = async (event) => {
         const res = JSON.parse(event.body);
         const { full_name, email, phone, campaign, message } = res;
 
-        console.log(`Campaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}`);
+        console.log(
+            `\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}`
+        );
         // console.log("\n------------------ RES END ------------------\n");
 
         const getCampaigns = await Airtable.getCampaigns("Text");
-        const textCampaign = getCampaigns.filter(
+        const textCampaign = getCampaigns.find(
             (foundCampaign) => foundCampaign.Campaign === campaign.name
         );
 

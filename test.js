@@ -69,9 +69,33 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // console.log(campaigns);
 
         // GET CONTACT BY
-        const contactId = await Airtable.findTextContact("app115xQzw1jhn5U8", "Efrain Carrizo");
+        const campaign = {
+            name: "Ben Farha NEW Mobile Numbers",
+        };
+        const full_name = "Zachary Guthridge";
+        const message = {
+            response: "Can Ben give me a call today",
+        };
 
-        console.log(contactId);
+        const getCampaigns = await Airtable.getCampaigns("Text");
+        const textCampaign = getCampaigns.find(
+            (foundCampaign) => foundCampaign.Campaign === campaign.name
+        );
+
+        // const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+        // const contact = await Airtable.findTextContact("appAJd8DNpOfsXN53", full_name);
+
+        // if (contact) {
+        //     const updatedFields = {
+        //         Responded: true,
+        //         Response: message.body,
+        //         "Responded Date": today,
+        //     };
+
+        //     await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
+        // }
+
+        console.log(textCampaign);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
