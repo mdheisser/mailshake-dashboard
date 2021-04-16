@@ -62,12 +62,16 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // }
         //
         // GET CAMPAIGNS
-        const getCampaigns = await Airtable.getCampaigns();
-        let campaigns = liveCampaigns(getCampaigns);
-        campaigns = campaignsDueToday(campaigns);
-        campaigns = campaignsToRun(campaigns);
+        // const getCampaigns = await Airtable.getCampaigns();
+        // let campaigns = liveCampaigns(getCampaigns);
+        // campaigns = campaignsDueToday(campaigns);
+        // campaigns = campaignsToRun(campaigns);
+        // console.log(campaigns);
 
-        console.log(campaigns);
+        // GET CONTACT BY
+        const contactId = await Airtable.findTextContact("app115xQzw1jhn5U8", "Efrain Carrizo");
+
+        console.log(contactId);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

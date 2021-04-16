@@ -12,7 +12,7 @@ const { liveCampaigns, campaignsToRun, mapContact, campaignsDueToday } = require
 
 module.exports = async () => {
     try {
-        const getCampaigns = await Airtable.getCampaigns();
+        const getCampaigns = await Airtable.getCampaigns("Email");
         let campaigns = liveCampaigns(getCampaigns);
         campaigns = campaignsDueToday(campaigns);
         campaigns = campaignsToRun(campaigns);

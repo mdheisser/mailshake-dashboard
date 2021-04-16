@@ -1,4 +1,4 @@
-const test = require("./utils/test");
+const recordResponse = require("./utils/recordResponse");
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -7,7 +7,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        return await test(event);
+        return await recordResponse(event);
     } else {
         return {
             statusCode: 500,

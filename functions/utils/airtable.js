@@ -37,11 +37,11 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getCampaigns() {
+    async getCampaigns(view) {
         try {
             const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
 
-            const res = await base("Campaigns").select({ view: "Email" }).firstPage();
+            const res = await base("Campaigns").select({ view }).firstPage();
 
             const campaigns = res.map((campaign) => {
                 return {
@@ -94,6 +94,28 @@ module.exports = class AirtableApi {
             }));
 
             return contacts.length > 0 ? contacts : false;
+        } catch (error) {
+            console.log("ERROR GETCONTACTS() ---", error);
+        }
+    }
+
+    async findTextContact(baseID, fullName) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            const res = await base("First Line Ready")
+                .select({
+                    maxRecords: 10,
+                    filterByFormula: `AND(({Full Name} = "${fullName}"),({Outreach} = "Text"))`,
+                })
+                .firstPage();
+
+            const contacts = res.map((contact) => ({
+                ...contact.fields,
+                recordID: contact.getId(),
+            }));
+
+            return contacts.length > 0 ? contacts[0].recordID : false;
         } catch (error) {
             console.log("ERROR GETCONTACTS() ---", error);
         }
