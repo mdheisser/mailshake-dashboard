@@ -8,32 +8,30 @@ const today = moment(new Date()).format("MM/DD/YYYY");
 
 module.exports = async (event) => {
     try {
-        // console.log("\n------------------ RES START ------------------\n");
         const res = JSON.parse(event.body);
         const { full_name, email, phone, campaign, message } = res;
 
         console.log(
             `\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}`
         );
-        // console.log("\n------------------ RES END ------------------\n");
-
-        console.log(res);
 
         const getCampaigns = await Airtable.getCampaigns("Text");
-        const textCampaign = getCampaigns.find(
+        const textCampaigns = getCampaigns.filter(
             (foundCampaign) => foundCampaign.Campaign === campaign.name
         );
 
-        const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+        for (let textCampaign of textCampaigns) {
+            const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
 
-        if (contact) {
-            const updatedFields = {
-                Responded: true,
-                Response: message.body,
-                "Response Date": today,
-            };
+            if (contact) {
+                const updatedFields = {
+                    Responded: true,
+                    Response: message.body,
+                    "Response Date": today,
+                };
 
-            await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
+                await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
+            }
         }
 
         return {
