@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const { responseStatus } = require("./helpers");
+
 const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
@@ -28,6 +30,7 @@ module.exports = async (event) => {
                     Responded: true,
                     Response: message.body,
                     "Response Date": today,
+                    Status: responseStatus(message.body),
                 };
 
                 await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);

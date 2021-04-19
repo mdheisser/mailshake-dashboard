@@ -47,20 +47,7 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // );
         // await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
         //
-        // AIRTABLE
-        // const Airtable = new AirtableApi(foundUser.airtableApi);
-        // const campaigns = await Airtable.getCampaign(foundUser.airtableBase, "Specific");
-        // for (let campaign of campaigns) {
-        //     if (campaign.tag !== "") {
-        //         console.log(`First Line Ready - ${campaign.tag}`);
-        //         const airtableContacts = await Airtable.getContacts(
-        //             foundUser.airtableBase,
-        //             `First Line Ready - ${campaign.tag}`
-        //         );
-        //         console.log(airtableContacts);
-        //     }
-        // }
-        //
+
         // GET CAMPAIGNS
         // const getCampaigns = await Airtable.getCampaigns();
         // let campaigns = liveCampaigns(getCampaigns);
@@ -69,27 +56,50 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // console.log(campaigns);
 
         // GET CONTACT BY
-        const campaign = {
-            name: "Norman Mobile Numbers",
+        // const campaign = {
+        //     name: "Norman Mobile Numbers",
+        // };
+        // const full_name = "Kandi Malphrus";
+        // const message = {
+        //     response: "Can Ben give me a call today",
+        // };
+
+        // const getCampaigns = await Airtable.getCampaigns("Text");
+        // const textCampaigns = getCampaigns.filter(
+        //     (foundCampaign) => foundCampaign.Campaign === campaign.name
+        // );
+
+        // for (let textCampaign of textCampaigns) {
+        //     const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+
+        //     if (contact) {
+        //         console.log(textCampaign.Client);
+        //         console.log(contact);
+        //     }
+        // }
+        //
+        // FILTER MESSAGES
+        // const message = "You have the wrong number";
+
+        // const coldResponse = require("./functions/utils/keywords");
+
+        // const re = new RegExp(coldResponse, "i");
+
+        // if (re.test(message)) {
+        //     console.log("TRUE");
+        // }
+
+        //
+
+        const { responseStatus } = require("./functions/utils/helpers");
+
+        const recordID = await Airtable.findTextContact("app115xQzw1jhn5U8", "Mona Debenham");
+
+        const updatedFields = {
+            Status: responseStatus("Stop"),
         };
-        const full_name = "Kandi Malphrus";
-        const message = {
-            response: "Can Ben give me a call today",
-        };
 
-        const getCampaigns = await Airtable.getCampaigns("Text");
-        const textCampaigns = getCampaigns.filter(
-            (foundCampaign) => foundCampaign.Campaign === campaign.name
-        );
-
-        for (let textCampaign of textCampaigns) {
-            const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
-
-            if (contact) {
-                console.log(textCampaign.Client);
-                console.log(contact);
-            }
-        }
+        await Airtable.updateContact("app115xQzw1jhn5U8", recordID, updatedFields);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

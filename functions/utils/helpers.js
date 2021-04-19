@@ -1,6 +1,8 @@
 const moment = require("moment");
 const today = moment(new Date()).format("YYYY-MM-DD");
 
+const { coldWord, coldPhrase } = require("./keywords");
+
 module.exports = {
     async minutesWait(minutes) {
         return await new Promise((resolve) => {
@@ -157,5 +159,17 @@ module.exports = {
                 },
             };
         });
+    },
+
+    responseStatus(response) {
+        let coldRe;
+
+        if (response.split(" ").length < 3) {
+            coldRe = new RegExp(coldWord, "i");
+        } else {
+            coldRe = new RegExp(coldPhrase, "i");
+        }
+
+        return coldRe.test(response) ? "Cold" : null;
     },
 };
