@@ -93,13 +93,7 @@ const today = moment(new Date()).format("YYYY-MM-DD");
 
         const { responseStatus } = require("./functions/utils/helpers");
 
-        const recordID = await Airtable.findTextContact("app115xQzw1jhn5U8", "Mona Debenham");
-
-        const updatedFields = {
-            Status: responseStatus("Stop"),
-        };
-
-        await Airtable.updateContact("app115xQzw1jhn5U8", recordID, updatedFields);
+        console.log(responseStatus("Stop by"));
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

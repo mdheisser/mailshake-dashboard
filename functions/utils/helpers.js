@@ -164,7 +164,7 @@ module.exports = {
     responseStatus(response) {
         let coldRe;
 
-        if (response.split(" ").length < 3) {
+        if (response.split(" ").length < 2) {
             coldRe = new RegExp(coldWord, "i");
         } else {
             coldRe = new RegExp(coldPhrase, "i");
