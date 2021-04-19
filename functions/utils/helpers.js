@@ -1,7 +1,7 @@
 const moment = require("moment");
 const today = moment(new Date()).format("YYYY-MM-DD");
 
-const { coldWord, coldPhrase } = require("./keywords");
+const { coldWord, coldPhrase, coldExact } = require("./keywords");
 
 module.exports = {
     async minutesWait(minutes) {
@@ -163,6 +163,12 @@ module.exports = {
 
     responseStatus(response) {
         let coldRe;
+
+        for (let phrase of coldExact) {
+            if (response.toLowerCase() === phrase.toLowerCase()) {
+                return "Cold";
+            }
+        }
 
         if (response.split(" ").length < 2) {
             coldRe = new RegExp(coldWord, "i");

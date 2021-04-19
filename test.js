@@ -93,7 +93,7 @@ const today = moment(new Date()).format("YYYY-MM-DD");
 
         const { responseStatus } = require("./functions/utils/helpers");
 
-        console.log(responseStatus("Stop by"));
+        console.log(responseStatus("not Interested"));
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
