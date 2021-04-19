@@ -25,7 +25,7 @@ module.exports = async (event) => {
         for (let textCampaign of textCampaigns) {
             const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
 
-            if (contact) {
+            if (contact && !("Responded" in contact)) {
                 const updatedFields = {
                     Responded: true,
                     Response: message.body,
@@ -33,7 +33,11 @@ module.exports = async (event) => {
                     Status: responseStatus(message.body),
                 };
 
-                await Airtable.updateContact(textCampaign["Base ID"], contact, updatedFields);
+                await Airtable.updateContact(
+                    textCampaign["Base ID"],
+                    contact.recordID,
+                    updatedFields
+                );
             }
         }
 

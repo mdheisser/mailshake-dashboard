@@ -115,7 +115,7 @@ module.exports = class AirtableApi {
                 recordID: contact.getId(),
             }));
 
-            return contacts.length > 0 ? contacts[0].recordID : false;
+            return contacts.length > 0 ? contacts[0] : false;
         } catch (error) {
             console.log("ERROR FINDTEXTCONTACTS() ---", error);
         }

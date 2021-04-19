@@ -78,22 +78,8 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         //     }
         // }
         //
-        // FILTER MESSAGES
-        // const message = "You have the wrong number";
-
-        // const coldResponse = require("./functions/utils/keywords");
-
-        // const re = new RegExp(coldResponse, "i");
-
-        // if (re.test(message)) {
-        //     console.log("TRUE");
-        // }
-
-        //
-
-        const { responseStatus } = require("./functions/utils/helpers");
-
-        console.log(responseStatus("not Interested"));
+        const contact = await Airtable.findTextContact("app115xQzw1jhn5U8", "Philip Grant");
+        console.log(contact);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
