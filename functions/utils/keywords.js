@@ -5,6 +5,6 @@ const coldPhrase = ["Wrong number", "Remove me"];
 
 module.exports = {
     coldWord: ["No", "Stop", "Unsubscribe"].join("|"),
-    coldPhrase: ["Remove me"].join("|"),
-    coldExact: ["Not interested", "No thanks", "Opt out", "Wrong Number"],
+    coldPhrase: ["Remove me", "Wrong Number"].join("|"),
+    coldExact: ["Not interested", "No thanks", "Opt out"],
 };
