@@ -14,7 +14,7 @@ module.exports = async (event) => {
         const { full_name, email, phone, campaign, message } = res;
 
         console.log(
-            `\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}`
+            `\nClient: ${campaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
         );
 
         const getCampaigns = await Airtable.getCampaigns("Text");
