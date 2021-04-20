@@ -4,7 +4,7 @@ const coldPhrase = ["Wrong number", "Remove me"];
 // const hotResponse = ["Call me"];
 
 module.exports = {
-    coldWord: ["No", "Stop"].join("|"),
-    coldPhrase: ["Wrong number", "Remove me"].join("|"),
-    coldExact: ["Not interested", "No thanks"],
+    coldWord: ["No", "Stop", "Unsubscribe"].join("|"),
+    coldPhrase: ["Remove me"].join("|"),
+    coldExact: ["Not interested", "No thanks", "Opt out", "Wrong Number"],
 };
