@@ -36,7 +36,7 @@ module.exports = async (event) => {
                 );
 
                 console.log(
-                    `Client: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+                    `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
                 );
             }
         }
