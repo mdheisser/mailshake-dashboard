@@ -13,10 +13,6 @@ module.exports = async (event) => {
         const res = JSON.parse(event.body);
         const { full_name, email, phone, campaign, message } = res;
 
-        console.log(
-            `\nClient: ${campaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
-        );
-
         const getCampaigns = await Airtable.getCampaigns("Text");
         const textCampaigns = getCampaigns.filter(
             (foundCampaign) => foundCampaign.Campaign === campaign.name
@@ -37,6 +33,10 @@ module.exports = async (event) => {
                     textCampaign["Base ID"],
                     contact.recordID,
                     updatedFields
+                );
+
+                console.log(
+                    `Client: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
                 );
             }
         }
