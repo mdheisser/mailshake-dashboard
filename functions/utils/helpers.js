@@ -165,19 +165,13 @@ module.exports = {
     },
 
     responseStatus(response) {
-        let coldRe;
-
-        for (let phrase of coldExact) {
+        for (let phrase of coldWord) {
             if (response.toLowerCase() === phrase.toLowerCase()) {
                 return "Cold";
             }
         }
 
-        if (response.split(" ").length < 2) {
-            coldRe = new RegExp(coldWord, "i");
-        } else {
-            coldRe = new RegExp(coldPhrase, "i");
-        }
+        let coldRe = new RegExp(coldPhrase, "i");
 
         return coldRe.test(response) ? "Cold" : null;
     },
