@@ -184,7 +184,7 @@ module.exports = {
 
     async slackNotification(text) {
         // notify me about this in Slack
-        await axios.post(process.env.SLACK_AUTOMATIONEXPERTS_DM, {
+        await axios.post(process.env.SLACK_TEXT_NOTIFICATIONS, {
             text,
         });
     },
