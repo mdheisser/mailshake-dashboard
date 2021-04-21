@@ -1,3 +1,6 @@
+require("dotenv").config();
+
+const axios = require("axios");
 const moment = require("moment");
 const today = moment(new Date()).format("YYYY-MM-DD");
 
@@ -177,5 +180,12 @@ module.exports = {
         }
 
         return coldRe.test(response) ? "Cold" : null;
+    },
+
+    async slackNotification(text) {
+        // notify me about this in Slack
+        await axios.post(process.env.SLACK_AUTOMATIONEXPERTS_DM, {
+            text,
+        });
     },
 };

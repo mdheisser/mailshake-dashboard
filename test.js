@@ -9,7 +9,12 @@ const users = require("./src/db/users");
 const MailShakeApi = require("./functions/utils/mailshake");
 const AirtableApi = require("./functions/utils/airtable");
 
-const { liveCampaigns, campaignsToRun, campaignsDueToday } = require("./functions/utils/helpers");
+const {
+    liveCampaigns,
+    campaignsToRun,
+    campaignsDueToday,
+    slackNotification,
+} = require("./functions/utils/helpers");
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
@@ -47,14 +52,12 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // );
         // await GoogleSpreadsheet.appendProspect(["Ryan Roman"]);
         //
-
         // GET CAMPAIGNS
         // const getCampaigns = await Airtable.getCampaigns();
         // let campaigns = liveCampaigns(getCampaigns);
         // campaigns = campaignsDueToday(campaigns);
         // campaigns = campaignsToRun(campaigns);
         // console.log(campaigns);
-
         // GET CONTACT BY
         // const campaign = {
         //     name: "Norman Mobile Numbers",
@@ -63,23 +66,20 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // const message = {
         //     response: "Can Ben give me a call today",
         // };
-
         // const getCampaigns = await Airtable.getCampaigns("Text");
         // const textCampaigns = getCampaigns.filter(
         //     (foundCampaign) => foundCampaign.Campaign === campaign.name
         // );
-
         // for (let textCampaign of textCampaigns) {
         //     const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
-
         //     if (contact) {
         //         console.log(textCampaign.Client);
         //         console.log(contact);
         //     }
         // }
         //
-        const contact = await Airtable.findTextContact("app115xQzw1jhn5U8", "Philip Grant");
-        console.log(contact);
+        // const contact = await Airtable.findTextContact("app115xQzw1jhn5U8", "Philip Grant");
+        // console.log(contact);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

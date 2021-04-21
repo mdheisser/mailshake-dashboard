@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { responseStatus } = require("./helpers");
+const { responseStatus, slackNotification } = require("./helpers");
 
 const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
@@ -22,11 +22,13 @@ module.exports = async (event) => {
             const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
 
             if (contact && !("Responded" in contact)) {
+                const Status = responseStatus(message.body);
+
                 const updatedFields = {
                     Responded: true,
                     Response: message.body,
                     "Response Date": today,
-                    Status: responseStatus(message.body),
+                    Status,
                 };
 
                 await Airtable.updateContact(
@@ -38,6 +40,11 @@ module.exports = async (event) => {
                 console.log(
                     `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
                 );
+
+                Status === null &&
+                    (await slackNotification(
+                        `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+                    ));
             }
         }
 
