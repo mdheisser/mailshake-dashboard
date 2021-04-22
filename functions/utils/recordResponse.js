@@ -6,7 +6,6 @@ const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const moment = require("moment");
-const today = moment(new Date()).format("MM/DD/YYYY");
 
 module.exports = async (event) => {
     try {
@@ -27,7 +26,7 @@ module.exports = async (event) => {
                 const updatedFields = {
                     Responded: true,
                     Response: message.body,
-                    "Response Date": today,
+                    "Response Date": new Date(),
                     Status,
                 };
 

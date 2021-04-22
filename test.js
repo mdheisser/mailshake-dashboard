@@ -70,17 +70,15 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // const textCampaigns = getCampaigns.filter(
         //     (foundCampaign) => foundCampaign.Campaign === campaign.name
         // );
-        // for (let textCampaign of textCampaigns) {
-        //     const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
-        //     if (contact) {
-        //         console.log(textCampaign.Client);
-        //         console.log(contact);
-        //     }
-        // }
         //
-        // const contact = await Airtable.findTextContact("app115xQzw1jhn5U8", "Philip Grant");
-        // console.log(contact);
+        // const now = moment().format("MM/DD/YYYY hh:mm a");
+        // const contact = await Airtable.findTextContact("appoNqmB15dMPPEXD", "Phil Reagan");
+        // await Airtable.updateContact("appoNqmB15dMPPEXD", contact.recordID, {
+        //     ["Response Date"]: new Date(),
+        // });
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
 })();
+
+// 4/16/2021 6:00pm
