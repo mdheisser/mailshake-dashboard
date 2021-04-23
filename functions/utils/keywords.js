@@ -1,21 +1,16 @@
 module.exports = {
     coldWord: [
-        "Not interested",
-        "No thanks",
         "Opt out",
-        "No thank you",
+        "No thanks",
         "No thanks.",
-        "No",
+        "No thank you",
+        "No thank you.",
         "Unsubscribe",
         "Stop",
+        "No",
         "No, sorry",
         "Not interested",
+        "Not interested.",
     ],
-    coldPhrase: [
-        "Remove me",
-        "Wrong Number",
-        "remove me from this list",
-        "take me off your list",
-        "Stop messaging me",
-    ].join("|"),
+    coldPhrase: ["Remove me", "Wrong Number", "take me off", "Stop messaging me"].join("|"),
 };
