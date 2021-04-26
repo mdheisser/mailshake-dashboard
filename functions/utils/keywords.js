@@ -12,5 +12,12 @@ module.exports = {
         "Not interested",
         "Not interested.",
     ],
-    coldPhrase: ["Remove me", "Wrong Number", "take me off", "Stop messaging me"].join("|"),
+    coldPhrase: [
+        "Remove me",
+        "Wrong Number",
+        "take me off",
+        "Stop messaging me",
+        "Stop texting me",
+        "Please remove us",
+    ].join("|"),
 };
