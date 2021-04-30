@@ -3,18 +3,17 @@ require("dotenv").config();
 const moment = require("moment");
 const today = moment(new Date()).format("MM/DD/YYYY");
 
-const MailShakeApi = require("./mailshake");
-const AirtableApi = require("./airtable");
+const MailShakeApi = require("./Mailshake");
+const AirtableApi = require("./Airtable");
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
-const { liveCampaigns, campaignsToRun, mapContact, campaignsDueToday } = require("./helpers");
+const { liveCampaigns, campaignsToRun, mapContact } = require("./helpers");
 
 module.exports = async () => {
     try {
-        const getCampaigns = await Airtable.getCampaigns("Email");
+        const getCampaigns = await Airtable.getCampaigns();
         let campaigns = liveCampaigns(getCampaigns);
-        campaigns = campaignsDueToday(campaigns);
         campaigns = campaignsToRun(campaigns);
 
         for (let campaign of campaigns) {
