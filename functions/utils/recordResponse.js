@@ -8,9 +8,7 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
-        const { full_name, email, phone, campaign, message } = res;
-
-        console.log({ res });
+        const { full_name, campaign, message } = res;
 
         const getCampaigns = await Airtable.getCampaigns("Text");
         const textCampaigns = getCampaigns.filter(
@@ -27,7 +25,7 @@ module.exports = async (event) => {
                     Responded: true,
                     Response: message.body,
                     "Response Date": new Date(),
-                    Status,
+                    // Status,
                 };
 
                 await Airtable.updateContact(

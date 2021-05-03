@@ -24,6 +24,8 @@ const foundUser = users.find((user) => user.client === "Rooftek");
 
 const today = moment(new Date()).format("YYYY-MM-DD");
 
+const responseStatus = require("./functions/utils/recordResponse");
+
 (async () => {
     try {
         // const Mailshake = new MailShakeApi(foundUser.mailshakeApi);
@@ -66,16 +68,55 @@ const today = moment(new Date()).format("YYYY-MM-DD");
         // const message = {
         //     response: "Can Ben give me a call today",
         // };
-        // const getCampaigns = await Airtable.getCampaigns("Text");
-        // const textCampaigns = getCampaigns.filter(
-        //     (foundCampaign) => foundCampaign.Campaign === campaign.name
-        // );
         //
         // const now = moment().format("MM/DD/YYYY hh:mm a");
         // const contact = await Airtable.findTextContact("appoNqmB15dMPPEXD", "Phil Reagan");
         // await Airtable.updateContact("appoNqmB15dMPPEXD", contact.recordID, {
         //     ["Response Date"]: new Date(),
         // });
+        const res = {
+            full_name: "Matthew J Beaver",
+            campaign: { name: "Nick Farha NEW Mobile Numbers" },
+            message: { body: "Wrong Number. No Matthew here sorry" },
+        };
+        const { full_name, campaign, message } = res;
+
+        const getCampaigns = await Airtable.getCampaigns("Text");
+        const textCampaigns = getCampaigns.filter(
+            (foundCampaign) => foundCampaign.Campaign === campaign.name
+        );
+
+        for (let textCampaign of textCampaigns) {
+            const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+
+            if (contact && !("Responded" in contact)) {
+                const Status = responseStatus(message.body);
+
+                console.log(Status);
+
+                const updatedFields = {
+                    Responded: true,
+                    Response: message.body,
+                    "Response Date": new Date(),
+                    // Status,
+                };
+
+                await Airtable.updateContact(
+                    textCampaign["Base ID"],
+                    contact.recordID,
+                    updatedFields
+                );
+
+                console.log(
+                    `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+                );
+
+                // Status === null &&
+                //     (await slackNotification(
+                //         `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+                //     ));
+            }
+        }
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
