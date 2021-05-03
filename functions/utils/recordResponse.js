@@ -25,7 +25,7 @@ module.exports = async (event) => {
                     Responded: true,
                     Response: message.body,
                     "Response Date": new Date(),
-                    // Status,
+                    Status,
                 };
 
                 await Airtable.updateContact(

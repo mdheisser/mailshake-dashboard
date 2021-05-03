@@ -24,7 +24,7 @@ const foundUser = users.find((user) => user.client === "Rooftek");
 
 const today = moment(new Date()).format("YYYY-MM-DD");
 
-const responseStatus = require("./functions/utils/recordResponse");
+const { responseStatus } = require("./functions/utils/helpers");
 
 (async () => {
     try {
@@ -81,42 +81,45 @@ const responseStatus = require("./functions/utils/recordResponse");
         };
         const { full_name, campaign, message } = res;
 
-        const getCampaigns = await Airtable.getCampaigns("Text");
-        const textCampaigns = getCampaigns.filter(
-            (foundCampaign) => foundCampaign.Campaign === campaign.name
-        );
+        // const getCampaigns = await Airtable.getCampaigns("Text");
+        // const textCampaigns = getCampaigns.filter(
+        //     (foundCampaign) => foundCampaign.Campaign === campaign.name
+        // );
 
-        for (let textCampaign of textCampaigns) {
-            const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+        const Status = responseStatus(message.body);
+        console.log(Status);
 
-            if (contact && !("Responded" in contact)) {
-                const Status = responseStatus(message.body);
+        // for (let textCampaign of textCampaigns) {
+        //     const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
 
-                console.log(Status);
+        //     if (contact && !("Responded" in contact)) {
+        //         const Status = responseStatus(message.body);
 
-                const updatedFields = {
-                    Responded: true,
-                    Response: message.body,
-                    "Response Date": new Date(),
-                    // Status,
-                };
+        //         console.log(Status);
 
-                await Airtable.updateContact(
-                    textCampaign["Base ID"],
-                    contact.recordID,
-                    updatedFields
-                );
+        //         const updatedFields = {
+        //             Responded: true,
+        //             Response: message.body,
+        //             "Response Date": new Date(),
+        //             // Status,
+        //         };
 
-                console.log(
-                    `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
-                );
+        //         await Airtable.updateContact(
+        //             textCampaign["Base ID"],
+        //             contact.recordID,
+        //             updatedFields
+        //         );
 
-                // Status === null &&
-                //     (await slackNotification(
-                //         `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
-                //     ));
-            }
-        }
+        //         console.log(
+        //             `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+        //         );
+
+        //         // Status === null &&
+        //         //     (await slackNotification(
+        //         //         `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+        //         //     ));
+        //     }
+        // }
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

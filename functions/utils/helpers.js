@@ -1,3 +1,5 @@
+const { coldPhrase, coldWord } = require("./keywords");
+
 module.exports = {
     async minutesWait(minutes) {
         return await new Promise((resolve) => {
@@ -82,6 +84,22 @@ module.exports = {
                     recordID: contact.recordID,
                 },
             };
+        });
+    },
+
+    responseStatus(response) {
+        for (let phrase of coldWord) {
+            if (response.toLowerCase() === phrase.toLowerCase()) {
+                return "Cold";
+            }
+        }
+        let coldRe = new RegExp(coldPhrase, "i");
+        return coldRe.test(response) ? "Cold" : null;
+    },
+    async slackNotification(text) {
+        // notify me about this in Slack
+        await axios.post(process.env.SLACK_TEXT_NOTIFICATIONS, {
+            text,
         });
     },
 };
