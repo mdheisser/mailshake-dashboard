@@ -5,12 +5,12 @@ const { responseStatus, slackNotification } = require("./helpers");
 const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
-const moment = require("moment");
-
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
         const { full_name, email, phone, campaign, message } = res;
+
+        console.log({ res });
 
         const getCampaigns = await Airtable.getCampaigns("Text");
         const textCampaigns = getCampaigns.filter(
