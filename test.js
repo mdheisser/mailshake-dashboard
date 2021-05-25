@@ -74,6 +74,14 @@ const { responseStatus } = require("./functions/utils/helpers");
         // await Airtable.updateContact("appoNqmB15dMPPEXD", contact.recordID, {
         //     ["Response Date"]: new Date(),
         // });
+
+        const getTextCampaigns = await Airtable.getCampaigns("Text");
+        const getCRMCampaigns = await Airtable.getCampaigns("CRM");
+        const getCampaigns = [...getTextCampaigns, ...getCRMCampaigns];
+        // const textCampaigns = getCampaigns.filter(
+        //     (foundCampaign) => foundCampaign.Campaign === campaign.name
+        // );
+        console.log(getCampaigns);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
