@@ -11,6 +11,7 @@ module.exports = async (event) => {
         const { full_name, campaign, message } = res;
 
         const getCampaigns = await Airtable.getCampaigns("Text");
+
         const textCampaigns = getCampaigns.filter(
             (foundCampaign) => foundCampaign.Campaign === campaign.name
         );

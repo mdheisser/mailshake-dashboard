@@ -81,7 +81,7 @@ const { responseStatus } = require("./functions/utils/helpers");
         // const textCampaigns = getCampaigns.filter(
         //     (foundCampaign) => foundCampaign.Campaign === campaign.name
         // );
-        console.log(getCampaigns);
+        // console.log(getCampaigns);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
