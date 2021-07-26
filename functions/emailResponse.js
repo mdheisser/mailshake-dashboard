@@ -9,7 +9,7 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
-        console.log(`\n${res}\n`);
+        console.log(`\n${JSON.stringify(res)}\n`);
 
         await axios.post(process.env.SLACK_EMAIL_NOTIFICATIONS, {
             text: "\n*Client:* Greenscape\n*Campaign:* Revive Lost Leads\n*Response:* Coming soon...\n",
