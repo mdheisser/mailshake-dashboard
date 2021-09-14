@@ -40,7 +40,7 @@ module.exports = async (event) => {
 
                 Status === null &&
                     (await slackNotification(
-                        `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+                        `\n*Client:* ${textCampaign.Client}\n*Campaign:* ${campaign.name} \n*From:* ${full_name} \n*Response:* ${message.body}\n`
                     ));
             }
         }
