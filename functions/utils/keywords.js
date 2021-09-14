@@ -14,10 +14,10 @@ module.exports = {
     ],
     coldPhrase: [
         "Remove me",
-        "Wrong Number",
         "take me off",
         "Stop messaging me",
         "Stop texting me",
         "Please remove us",
-    ].join("|"),
+    ],
+    wrongInfo: ["Wrong number"].join("|"),
 };

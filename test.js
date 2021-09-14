@@ -29,9 +29,13 @@ const { responseStatus } = require("./functions/utils/helpers");
 
 (async () => {
     try {
-        await axios.post(process.env.SLACK_EMAIL_NOTIFICATIONS, {
-            text: "\n*Client:* Greenscape\n*Campaign:* Revive Lost Leads\n*Response:* Coming soon...\n",
-        });
+        // await axios.post(process.env.SLACK_EMAIL_NOTIFICATIONS, {
+        //     text: "\n*Client:* Greenscape\n*Campaign:* Revive Lost Leads\n*Response:* Coming soon...\n",
+        // });
+
+        const Status = responseStatus("Unsubscribe");
+
+        console.log(Status);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

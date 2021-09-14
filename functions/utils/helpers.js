@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { coldPhrase, coldWord } = require("./keywords");
+const { coldPhrase, coldWord, wrongInfo } = require("./keywords");
 
 module.exports = {
     async minutesWait(minutes) {
@@ -95,7 +95,16 @@ module.exports = {
             }
         }
         let coldRe = new RegExp(coldPhrase, "i");
-        return coldRe.test(response) ? "Cold" : null;
+        if (coldRe.test(response)) {
+            return "Cold";
+        }
+
+        let wrongRe = new RegExp(wrongInfo, "i");
+        if (wrongRe.test(response)) {
+            return "Wrong Info";
+        }
+
+        return null;
     },
     async slackNotification(text) {
         // notify me about this in Slack
