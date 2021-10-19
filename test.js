@@ -51,6 +51,7 @@ const res = {
 
 (async () => {
     try {
+        const client = JSON.parse(event.body.queryStringParameters.client);
         // get accounts from airtable leadgen
         const accounts = await Airtable.getCampaigns("Text");
 
