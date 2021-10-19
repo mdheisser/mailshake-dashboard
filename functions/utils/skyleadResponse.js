@@ -3,6 +3,8 @@ require("dotenv").config();
 const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
+const { slackNotification } = require("./helpers");
+
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
