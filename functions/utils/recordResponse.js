@@ -10,10 +10,12 @@ module.exports = async (event) => {
         const res = JSON.parse(event.body);
         const { full_name, campaign, message } = res;
 
+        console.log("campaign -", campaign);
+        console.log("campaign.name -", campaign.name);
+
         console.log(`full_name: ${full_name}, campaign: ${campaign}, message: ${message}`);
 
         const textCampaigns = await Airtable.getCampaign(campaign);
-        console.log("textCampaigns -", textCampaigns);
 
         for (let textCampaign of textCampaigns) {
             const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
