@@ -56,6 +56,14 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
         // get account
         const account = await Airtable.getClient(client);
 
+        const skyleadProspect = await Airtable.findSkyleadContact(account["Base ID"], res.fullName);
+
+        if (skyleadProspect) {
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ skyleadProspect }),
+            };
+        }
         // create contact in clients base
         const newContact = {
             "Full Name": res.fullName,
@@ -75,21 +83,19 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
         const createdContact = await Airtable.createContact(account["Base ID"], newContact);
 
-        if (createdContact) {
-            // notify slack
-            await slackNotification(
-                process.env.SLACK_SKYLEAD,
-                `\n*Client:* ${client}\n*From:* ${res.fullName} \n*Message:* ${res.message}\n`
-            );
-        } else {
-            // notify slack
-            await slackNotification(
-                process.env.SLACK_TWO_PERCENT_DM,
-                `Error add Skylead contact for client: ${client}`
-            );
-        }
-
-        console.log(account);
+        // if (createdContact) {
+        //     // notify slack
+        //     await slackNotification(
+        //         process.env.SLACK_SKYLEAD,
+        //         `\n*Client:* ${client}\n*From:* ${res.fullName} \n*Message:* ${res.message}\n`
+        //     );
+        // } else {
+        //     // notify slack
+        //     await slackNotification(
+        //         process.env.SLACK_TWO_PERCENT_DM,
+        //         `Error add Skylead contact for client: ${client}`
+        //     );
+        // }
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

@@ -14,6 +14,15 @@ module.exports = async (event) => {
         // get account
         const account = await Airtable.getClient(client);
 
+        // check if prospect's response already recorded
+        const skyleadProspect = await Airtable.findSkyleadContact(account["Base ID"], res.fullName);
+
+        if (skyleadProspect) {
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ skyleadProspect }),
+            };
+        }
         // create contact in clients base
         const newContact = {
             "Full Name": res.fullName,
@@ -52,6 +61,12 @@ module.exports = async (event) => {
             body: JSON.stringify({ createdContact }),
         };
     } catch (error) {
+        // notify slack
+        await slackNotification(
+            process.env.SLACK_TWO_PERCENT_DM,
+            `Error add Skylead contact for client: ${client}`
+        );
+
         return {
             statusCode: 500,
             body: JSON.stringify({ msg: error }),

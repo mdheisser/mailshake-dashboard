@@ -178,7 +178,30 @@ module.exports = class AirtableApi {
 
             return contacts.length > 0 ? contacts[0] : false;
         } catch (error) {
-            console.log("ERROR FINDTEXTCONTACTS() ---", error);
+            console.log("ERROR FINDTEXTCONTACT() ---", error);
+        }
+    }
+
+    async findSkyleadContact(baseID, fullName) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            const res = await base("Prospects")
+                .select({
+                    maxRecords: 10,
+                    filterByFormula: `AND(({Full Name} = "${fullName}"),({Outreach} = "Skylead"))`,
+                })
+                .firstPage();
+
+            const contacts = res.map((contact) => ({
+                ...contact.fields,
+                recordID: contact.getId(),
+            }));
+
+            return contacts.length > 0 ? contacts[0] : false;
+        } catch (error) {
+            console.log("ERROR FINDSKYLEADCONTACT() ---", error);
+            return false;
         }
     }
 
