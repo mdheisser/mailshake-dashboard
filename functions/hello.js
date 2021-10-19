@@ -11,7 +11,7 @@ exports.handler = async (event) => {
         console.log("res -", res);
         console.log("event -", event);
 
-        const client = event.queryStringParameters;
+        const { client } = event.queryStringParameters;
 
         console.log("client =", client);
         return {
