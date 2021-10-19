@@ -153,14 +153,14 @@ module.exports = class AirtableApi {
         }
     }
 
-    async findTextContact(baseID, fullName) {
+    async findTextContact(baseID, fullName, campaign) {
         try {
             const base = await this.assignAirtable(baseID);
 
             const res = await base("Prospects")
                 .select({
                     maxRecords: 10,
-                    filterByFormula: `AND(({Full Name} = "${fullName}"),({Outreach} = "Text"))`,
+                    filterByFormula: `AND(({Full Name} = "${fullName}"),({Outreach} = "Text"),({Campaign} = "${campaign}"))`,
                 })
                 .firstPage();
 

@@ -9,12 +9,15 @@ module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
         const { full_name, campaign, message } = res;
-        console.log("res -", res);
 
         const textCampaigns = await Airtable.getCampaign(campaign.name);
 
         for (let textCampaign of textCampaigns) {
-            const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
+            const contact = await Airtable.findTextContact(
+                textCampaign["Base ID"],
+                full_name,
+                campaign.name
+            );
 
             if (contact && !("Responded" in contact)) {
                 const Status = responseStatus(message.body);

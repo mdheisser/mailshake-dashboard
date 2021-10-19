@@ -21,8 +21,12 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 (async () => {
     try {
-        const textCampaigns = await Airtable.getCampaign("Farha - Nick Touch Point Follow Ups");
-        console.log(textCampaigns);
+        const contact = await Airtable.findTextContact(
+            "app115xQzw1jhn5U8",
+            "Karen West",
+            "Rooftek - Casual Campaign"
+        );
+        console.log(contact);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }
