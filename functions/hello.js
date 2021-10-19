@@ -11,9 +11,9 @@ exports.handler = async (event) => {
         console.log("res -", res);
         console.log("event -", event);
 
-        const client = JSON.parse(event.body.queryStringParameters);
-        const client1 = JSON.parse(event.body.queryStringParameters);
-        const client2 = JSON.parse(event.body.queryStringParameters).client;
+        const client = JSON.parse(event.queryStringParameters);
+        const client1 = JSON.parse(event.queryStringParameters);
+        const client2 = JSON.parse(event.queryStringParameters).client;
 
         console.log("client.client -", client.client);
         console.log("client1 -", client1);
