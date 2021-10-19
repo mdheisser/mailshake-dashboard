@@ -10,7 +10,7 @@ module.exports = async (event) => {
         const res = JSON.parse(event.body);
         const { full_name, campaign, message } = res;
 
-        const textCampaigns = await Airtable.getAccount(campaign);
+        const textCampaigns = await Airtable.getCampaign(campaign);
 
         for (let textCampaign of textCampaigns) {
             const contact = await Airtable.findTextContact(textCampaign["Base ID"], full_name);
@@ -37,6 +37,7 @@ module.exports = async (event) => {
 
                 Status === null &&
                     (await slackNotification(
+                        process.env.SLACK_TEXT_NOTIFICATIONS,
                         `\n*Client:* ${textCampaign.Client}\n*Campaign:* ${campaign.name} \n*From:* ${full_name} \n*Response:* ${message.body}\n`
                     ));
             }

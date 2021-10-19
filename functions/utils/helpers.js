@@ -106,11 +106,9 @@ module.exports = {
 
         return null;
     },
-    async slackNotification(text) {
+    async slackNotification(channel, text) {
         // notify me about this in Slack
-        await axios.post(process.env.SLACK_TEXT_NOTIFICATIONS, {
-            text,
-        });
+        await axios.post(channel, { text });
     },
 
     async getMessages(client, from, to) {

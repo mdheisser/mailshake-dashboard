@@ -37,7 +37,7 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getAccount(campaign) {
+    async getCampaign(campaign) {
         try {
             const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
 
@@ -50,7 +50,25 @@ module.exports = class AirtableApi {
 
             return accounts.length ? accounts.map((account) => account.fields) : false;
         } catch (error) {
-            console.log("ERROR GETACCOUNT() ---", error);
+            console.log("ERROR GETCAMPAIGN() ---", error);
+            return false;
+        }
+    }
+
+    async getClient(client) {
+        try {
+            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
+
+            const clients = await base("Campaigns")
+                .select({
+                    maxRecords: 10,
+                    filterByFormula: `({Client} = "${client}")`,
+                })
+                .firstPage();
+
+            return clients.length ? clients.map((account) => account.fields) : false;
+        } catch (error) {
+            console.log("ERROR GETCLIENT() ---", error);
             return false;
         }
     }
@@ -88,9 +106,15 @@ module.exports = class AirtableApi {
         try {
             const base = await this.assignAirtable(baseID);
 
-            const newContact = await base(baseID).create(contact);
+            const newContact = await base("Prospects").create(contact);
+
+            return {
+                ...newContact.fields,
+                recordID: newContact.getId(),
+            };
         } catch (error) {
-            console.log("ERROR CREATECONTACTS() ---", error);
+            console.log("ERROR CREATECONTACT() ---", error);
+            return false;
         }
     }
 
