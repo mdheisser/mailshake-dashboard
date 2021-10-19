@@ -51,14 +51,27 @@ const res = {
 
 (async () => {
     try {
-        const client = JSON.parse(event.body.queryStringParameters.client);
-        // get accounts from airtable leadgen
-        const accounts = await Airtable.getCampaigns("Text");
+        const { client } = JSON.parse(event.body.queryStringParameters);
 
-        // find account
-        const foundAccount = 
+        // get account
+        const account = await Airtable.getAccount(client);
 
         // create contact in clients base
+        const newContact = {
+            "Full Name": res.fullName,
+            "First Name": res.firstName,
+            "Last Name": res.lastName,
+            "Company Name": res.currentCompany || "",
+            Email: res.email || "",
+            "Phone Number": res.phone || "",
+            Outreach: "Skylead",
+            Url: res.linkedinProfile || "",
+            Response: res.message || "",
+            Campaign: res.campaignName || "",
+            "In Campaign": 1,
+        };
+
+        const createdContact = await Airtable.createContact(account["Base ID"], newContact);
 
         // notify slack
         // remove zaps

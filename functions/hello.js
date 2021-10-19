@@ -11,7 +11,7 @@ exports.handler = async (event) => {
         console.log("res -", res);
         console.log("event -", event);
 
-        const { client } = JSON.parse(event.body.queryStringParameters);
+        const client = JSON.parse(event.body.queryStringParameters.client);
         console.log("client =", client);
         return {
             statusCode: 200,

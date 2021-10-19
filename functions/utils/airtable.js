@@ -84,6 +84,16 @@ module.exports = class AirtableApi {
         }
     }
 
+    async createContact(baseID, contact) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            const newContact = await base(baseID).create(contact);
+        } catch (error) {
+            console.log("ERROR CREATECONTACTS() ---", error);
+        }
+    }
+
     async getContact(baseID, recordID) {
         try {
             const base = await this.assignAirtable(baseID);
