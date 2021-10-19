@@ -1,22 +1,4 @@
-require("dotenv").config();
-
-const axios = require("axios");
-const moment = require("moment");
-
-const fetch = require("node-fetch");
-
-const users = require("./src/db/users");
-
-const MailShakeApi = require("./functions/utils/mailshake");
-const AirtableApi = require("./functions/utils/airtable");
-
-const {
-    liveCampaigns,
-    campaignsToRun,
-    campaignsDueToday,
-    slackNotification,
-} = require("./functions/utils/helpers");
-
+const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const res = {
@@ -49,21 +31,25 @@ const res = {
     campaignName: "Test campaign name",
 };
 
-(async () => {
+module.exports = async (event) => {
     try {
+        const res = JSON.parse(event.body);
+
         // get accounts from airtable leadgen
         const accounts = await Airtable.getCampaigns("Text");
 
-        // find account
-        const foundAccount = 
-
         // create contact in clients base
-
         // notify slack
         // remove zaps
-    } catch (error) {
-        console.log("ERROR FETCHING ---", error);
-    }
-})();
 
-// 4/16/2021 6:00pm
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ res }),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ msg: error }),
+        };
+    }
+};

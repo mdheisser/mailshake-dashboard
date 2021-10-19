@@ -112,4 +112,35 @@ module.exports = {
             text,
         });
     },
+
+    async getMessages(client, from, to) {
+        return await client.messages.list({
+            from,
+            to,
+            limit: 20,
+        });
+    },
+
+    async getConversation(client, from, to) {
+        try {
+            const clientConvo = getMessages(client, from, to);
+            const prospectConvo = getMessages(client, to, from);
+            const [clientMessages, prospectMessages] = await Promise.all([
+                clientConvo,
+                prospectConvo,
+            ]);
+
+            const conversation = [...clientMessages, ...prospectMessages];
+
+            if (conversation.length) {
+                // sort by dateSent
+                return conversation.sort((a, b) => a.dateSent - b.dateSent);
+            }
+
+            return false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    },
 };

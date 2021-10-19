@@ -37,6 +37,24 @@ module.exports = class AirtableApi {
         }
     }
 
+    async getAccount(campaign) {
+        try {
+            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
+
+            const accounts = await base("Campaigns")
+                .select({
+                    maxRecords: 10,
+                    filterByFormula: `({Campaign} = "${campaign}")`,
+                })
+                .firstPage();
+
+            return accounts.length ? accounts.map((account) => account.fields) : false;
+        } catch (error) {
+            console.log("ERROR GETACCOUNT() ---", error);
+            return false;
+        }
+    }
+
     async getCampaigns(view) {
         try {
             const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
