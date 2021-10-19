@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const AirtableApi = require("./airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
@@ -45,7 +47,7 @@ module.exports = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ res }),
+            body: JSON.stringify({ createdContact }),
         };
     } catch (error) {
         return {
