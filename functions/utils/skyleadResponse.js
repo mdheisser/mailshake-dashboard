@@ -5,10 +5,10 @@ module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
 
-        const { client } = JSON.parse(event.body.queryStringParameters);
+        const { client } = event.queryStringParameters;
 
         // get account
-        const [account] = await Airtable.getClient(client);
+        const account = await Airtable.getClient(client);
 
         // create contact in clients base
         const newContact = {

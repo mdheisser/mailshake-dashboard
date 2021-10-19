@@ -21,12 +21,10 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 (async () => {
     try {
-        const contact = await Airtable.findTextContact(
-            "app115xQzw1jhn5U8",
-            "Karen West",
-            "Rooftek - Casual Campaign"
-        );
-        console.log(contact);
+        const client = "Farha Roofing";
+        const account = await Airtable.getClient(client);
+
+        console.log(account);
     } catch (error) {
         console.log("ERROR FETCHING ---", error);
     }

@@ -59,12 +59,19 @@ module.exports = class AirtableApi {
         try {
             const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
 
-            const clients = await base("Campaigns")
+            let clients = await base("Campaigns")
                 .select({
                     maxRecords: 10,
                     filterByFormula: `({Client} = "${client}")`,
                 })
                 .firstPage();
+
+            if (clients.length) {
+                [clients] = clients.map((account) => account.fields);
+                return clients;
+            } else {
+                return false;
+            }
 
             return clients.length ? clients.map((account) => account.fields) : false;
         } catch (error) {
