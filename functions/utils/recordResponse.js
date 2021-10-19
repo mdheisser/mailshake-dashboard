@@ -9,8 +9,7 @@ module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
         const { full_name, campaign, message } = res;
-
-        console.log(`full_name: ${full_name}, campaign: ${campaign.name}, message: ${message}`);
+        console.log("res -", res);
 
         const textCampaigns = await Airtable.getCampaign(campaign.name);
 
