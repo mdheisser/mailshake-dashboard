@@ -8,7 +8,7 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
-        const { full_name, campaign, message } = res;
+        const { full_name, campaign, message, contact_id } = res;
 
         const textCampaigns = await Airtable.getCampaign(campaign.name);
 
@@ -18,6 +18,16 @@ module.exports = async (event) => {
                 full_name,
                 campaign.name
             );
+
+            let contact = await Airtable.findTextContactByID(textCampaign["Base ID"], contact_id);
+
+            if (!contact) {
+                contact = await Airtable.findTextContact(
+                    textCampaign["Base ID"],
+                    full_name,
+                    campaign.name
+                );
+            }
 
             if (contact && !("Responded" in contact)) {
                 const Status = responseStatus(message.body);

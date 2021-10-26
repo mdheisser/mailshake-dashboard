@@ -160,6 +160,29 @@ module.exports = class AirtableApi {
         }
     }
 
+    async findTextContactByID(baseID, id) {
+        try {
+            const base = await this.assignAirtable(baseID);
+
+            const res = await base("Prospects")
+                .select({
+                    maxRecords: 10,
+                    filterByFormula: `AND(({Highlevel ID} = "${id}"),({Responded} = 0))`,
+                })
+                .firstPage();
+
+            const contacts = res.map((contact) => ({
+                ...contact.fields,
+                recordID: contact.getId(),
+            }));
+
+            return contacts.length > 0 ? contacts[0] : false;
+        } catch (error) {
+            console.log("ERROR FINDTEXTCONTACTBYID() ---", error);
+            false;
+        }
+    }
+
     async findTextContact(baseID, fullName, campaign) {
         try {
             const base = await this.assignAirtable(baseID);
@@ -167,7 +190,7 @@ module.exports = class AirtableApi {
             const res = await base("Prospects")
                 .select({
                     maxRecords: 10,
-                    filterByFormula: `AND(({Full Name} = "${fullName}"),({Outreach} = "Text"),({Campaign} = "${campaign}"))`,
+                    filterByFormula: `AND(({Full Name} = "${fullName}"),({Outreach} = "Text"),({Campaign} = "${campaign}"),({Responded} = 0))`,
                 })
                 .firstPage();
 
@@ -179,6 +202,7 @@ module.exports = class AirtableApi {
             return contacts.length > 0 ? contacts[0] : false;
         } catch (error) {
             console.log("ERROR FINDTEXTCONTACT() ---", error);
+            false;
         }
     }
 
