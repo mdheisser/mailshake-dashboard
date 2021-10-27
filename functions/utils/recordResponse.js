@@ -13,12 +13,6 @@ module.exports = async (event) => {
         const textCampaigns = await Airtable.getCampaign(campaign.name);
 
         for (let textCampaign of textCampaigns) {
-            const contact = await Airtable.findTextContact(
-                textCampaign["Base ID"],
-                full_name,
-                campaign.name
-            );
-
             let contact = await Airtable.findTextContactByID(textCampaign["Base ID"], contact_id);
 
             if (!contact) {
