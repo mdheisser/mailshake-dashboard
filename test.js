@@ -19,81 +19,101 @@ const {
 
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
+const res = {
+    contact_id: "k4KC3H1Jih6AvzG1doyZ",
+    first_name: "Jim",
+    last_name: "Osbon",
+    full_name: "Jim Osbon",
+    email: "jim@4smartmoney.com",
+    phone: "+17605748700",
+    tags: "",
+    address1: "24795 Interstate 35",
+    city: "Kyle",
+    state: "TX",
+    country: "US",
+    date_created: "2021-11-05T15:14:46.571Z",
+    postal_code: "78640",
+    contact_source: "api v1",
+    full_address: "24795 Interstate 35 Kyle TX 78640",
+    contact_type: "lead",
+    location: {
+        name: "Roper Roofing & Solar",
+        address: "795 McIntyre Street",
+        city: "Golden",
+        state: "CO",
+        country: "US",
+        postalCode: "80401",
+        fullAddress: "795 McIntyre Street, Golden CO 80401",
+        id: "j5GScSbe6pa8vcnj7HPR",
+    },
+    campaign: {
+        id: "0MurKEAvAjuqxEFd0ky5",
+        name: "Roper - TEXAS Casual Campaign",
+    },
+    user: {
+        firstName: "Johno",
+        lastName: "Skeeters",
+        email: "johno@roperroofingco.com",
+        phone: "",
+        extension: "",
+    },
+    message: {
+        type: 2,
+        body: "Austin TX?",
+        direction: "inbound",
+        status: "delivered",
+    },
+};
+
 (async () => {
     try {
-        const { full_name, campaign, message } = {
-            full_name: "Ryan Roman",
-            campaign: { name: "Summa - 15 Minutes" },
-        };
+        // const res = JSON.parse(event.body);
+        const { full_name, campaign, message, contact_id } = res;
 
-        let contact = await Airtable.findTextContactByID(
-            "appPfAkOluijuGY1T",
-            "mCaQz89CgOX5EI7Z1AG8"
-            // "asdf"
-        );
+        const textCampaign = await Airtable.getCampaign(campaign.id);
+
+        let contact = await Airtable.findTextContactByID(textCampaign["Base ID"], contact_id);
 
         if (!contact) {
-            contact = await Airtable.findTextContact("appPfAkOluijuGY1T", full_name, campaign.name);
+            contact = await Airtable.findTextContact(
+                textCampaign["Base ID"],
+                full_name,
+                campaign.name
+            );
         }
 
-        console.log(contact);
+        if (contact && !("Responded" in contact)) {
+            const Status = responseStatus(message.body);
+
+            const updatedFields = {
+                Responded: true,
+                Response: message.body,
+                "Response Date": new Date(),
+                Status,
+            };
+
+            await Airtable.updateContact(textCampaign["Base ID"], contact.recordID, updatedFields);
+
+            console.log(
+                `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+            );
+
+            Status === null &&
+                (await slackNotification(
+                    process.env.SLACK_TEXT_NOTIFICATIONS,
+                    `\n*Client:* ${textCampaign.Client}\n*Campaign:* ${campaign.name} \n*From:* ${full_name} \n*Response:* ${message.body}\n`
+                ));
+        }
+
+        // return {
+        //     statusCode: 200,
+        //     body: JSON.stringify({ res }),
+        // };
     } catch (error) {
-        console.log("ERROR FETCHING ---", error);
+        console.log(error);
+        // return {
+        //     statusCode: 500,
+        //     body: JSON.stringify({ msg: error }),
+        // };
     }
 })();
-
-// 4/16/2021 6:00pm
-
-// let test = {
-//     contact_id: "6IOXFwyjVJdQ65C8FTz3",
-//     first_name: "Ryan",
-//     last_name: "Roman",
-//     full_name: "Ryan Roman",
-//     email: "rtroman14@gmail.com",
-//     phone: "+17152525716",
-//     tags: "",
-//     date_created: "2021-06-16T19:06:51.483Z",
-//     contact_source: "chat widget",
-//     full_address: "",
-//     contact_type: "lead",
-//     gclid: null,
-//     location: {
-//         name: "Summa Media",
-//         address: "445 Broadway",
-//         city: "Denver",
-//         state: "CO",
-//         country: "US",
-//         postalCode: "80203",
-//         fullAddress: "445 Broadway, Denver CO 80203",
-//         id: "S0O8LmhFAkVfgYlYFI1z",
-//     },
-//     message: { type: 2, body: "This is a test", direction: "inbound", status: "delivered" },
-//     contact: {
-//         attributionSource: {
-//             referrer: null,
-//             utmMedium: null,
-//             utmContent: null,
-//             utmSource: null,
-//             ip: "50.198.193.92",
-//             url: "https://summamedia.co/",
-//             userAgent:
-//                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36",
-//             sessionSource: "Direct traffic",
-//             fbp: "fb.1.1623870392833.700556658",
-//             gclid: null,
-//         },
-//         lastAttributionSource: {
-//             utmMedium: null,
-//             gclid: null,
-//             referrer: null,
-//             sessionSource: "Direct traffic",
-//             utmContent: null,
-//             utmSource: null,
-//             userAgent:
-//                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
-//             url: "https://summamedia.co/",
-//             ip: "2601:445:37f:9ab0:49ed:c62d:bc7e:56e0",
-//         },
-//     },
-//     attributionSource: {},
-// };

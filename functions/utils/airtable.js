@@ -18,37 +18,18 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getCampaign(baseID, view = "Alternate") {
-        try {
-            const base = await this.assignAirtable(baseID);
-
-            const res = await base("Campaigns")
-                .select({ maxRecords: view === "Alternate" ? 1 : 5, view })
-                .firstPage();
-
-            return res.map((record) => ({
-                recordID: record.getId(),
-                name: record.fields.Campaign,
-                id: record.fields.campaignID,
-                tag: record.fields.Tag || "",
-            }));
-        } catch (error) {
-            console.log("ERROR GETCAMPAIGN() ---", error);
-        }
-    }
-
     async getCampaign(campaign) {
         try {
             const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
 
-            const accounts = await base("Campaigns")
+            const [account] = await base("Campaigns")
                 .select({
-                    maxRecords: 10,
-                    filterByFormula: `({Campaign} = "${campaign}")`,
+                    maxRecords: 1,
+                    filterByFormula: `({Campaign ID} = "${campaign}")`,
                 })
                 .firstPage();
 
-            return accounts.length ? accounts.map((account) => account.fields) : false;
+            return account.fields;
         } catch (error) {
             console.log("ERROR GETCAMPAIGN() ---", error);
             return false;
