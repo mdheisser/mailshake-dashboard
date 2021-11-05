@@ -9,11 +9,11 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
         console.log("res -", res);
-        // console.log("event -", event);
+        console.log("event -", event);
 
-        // const { client } = event.queryStringParameters;
+        const { client } = event.queryStringParameters;
 
-        // console.log("client =", client);
+        console.log("client =", client);
         return {
             statusCode: 200,
             body: JSON.stringify({ msg: res }),
