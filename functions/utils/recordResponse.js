@@ -35,7 +35,7 @@ module.exports = async (event) => {
             await Airtable.updateContact(textCampaign["Base ID"], contact.recordID, updatedFields);
 
             console.log(
-                `\nClient: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
+                `Client: ${textCampaign.Client}\nCampaign: ${campaign.name} \nFrom: ${full_name} \nResponse: ${message.body}\n`
             );
 
             Status === null &&
