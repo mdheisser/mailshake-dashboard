@@ -42,7 +42,8 @@ module.exports = async (event) => {
                 (await slackNotification(
                     process.env.SLACK_TEXT_NOTIFICATIONS,
                     `\n*Client:* ${textCampaign.Client}\n*Campaign:* ${campaign.name} \n*From:* ${full_name} \n*Response:* ${message.body}\n`,
-                    location.id
+                    location.id,
+                    message.body
                 ));
         }
 
