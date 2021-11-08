@@ -110,6 +110,7 @@ module.exports = {
         // notify me about this in Slack
         // await axios.post(channel, { text });
         await axios.post(channel, {
+            text,
             blocks: [
                 {
                     type: "section",
