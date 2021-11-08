@@ -106,9 +106,31 @@ module.exports = {
 
         return null;
     },
-    async slackNotification(channel, text) {
+    async slackNotification(channel, text, location) {
         // notify me about this in Slack
-        await axios.post(channel, { text });
+        // await axios.post(channel, { text });
+        await axios.post(channel, {
+            blocks: [
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text,
+                    },
+                    accessory: {
+                        type: "button",
+                        text: {
+                            type: "plain_text",
+                            text: "Reply",
+                            emoji: true,
+                        },
+                        value: "click_me_123",
+                        url: `https://app.gohighlevel.com/location/${location}/conversations`,
+                        action_id: "button-action",
+                    },
+                },
+            ],
+        });
     },
 
     async getMessages(client, from, to) {

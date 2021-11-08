@@ -8,7 +8,7 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
-        const { full_name, campaign, message, contact_id } = res;
+        const { full_name, campaign, message, contact_id, location } = res;
 
         const textCampaign = await Airtable.getCampaign(campaign.id);
 
@@ -41,7 +41,8 @@ module.exports = async (event) => {
             Status === null &&
                 (await slackNotification(
                     process.env.SLACK_TEXT_NOTIFICATIONS,
-                    `\n*Client:* ${textCampaign.Client}\n*Campaign:* ${campaign.name} \n*From:* ${full_name} \n*Response:* ${message.body}\n`
+                    `\n*Client:* ${textCampaign.Client}\n*Campaign:* ${campaign.name} \n*From:* ${full_name} \n*Response:* ${message.body}\n`,
+                    location.id
                 ));
         }
 
