@@ -8,7 +8,6 @@ const { slackNotification } = require("./helpers");
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
-        console.log(res);
 
         const { client } = event.queryStringParameters;
 
@@ -47,7 +46,8 @@ module.exports = async (event) => {
             // notify slack
             await slackNotification(
                 process.env.SLACK_SKYLEAD,
-                `\n*Client:* ${client}\n*From:* ${res.fullName} \n*Message:* ${res.message}\n`
+                `\n*Client:* ${client}\n*From:* ${res.fullName} \n*Message:* ${res.message}\n`,
+                res.message
             );
         } else {
             // notify slack
