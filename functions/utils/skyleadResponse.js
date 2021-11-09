@@ -8,6 +8,7 @@ const { slackNotification } = require("./helpers");
 module.exports = async (event) => {
     try {
         const res = JSON.parse(event.body);
+        console.log(res);
 
         const { client } = event.queryStringParameters;
 
