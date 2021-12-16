@@ -9,11 +9,13 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
-        console.log(`\n${JSON.stringify(res)}\n`);
 
-        await axios.post(process.env.SLACK_EMAIL_NOTIFICATIONS, {
-            text: "\n*Client:* Greenscape\n*Campaign:* Revive Lost Leads\n*Response:* Coming soon...\n",
-        });
+        console.log(res);
+        // console.log(`\n${JSON.stringify(res)}\n`);
+
+        // await axios.post(process.env.SLACK_EMAIL_NOTIFICATIONS, {
+        //     text: "\n*Client:* Greenscape\n*Campaign:* Revive Lost Leads\n*Response:* Coming soon...\n",
+        // });
 
         return {
             statusCode: 200,
