@@ -8,18 +8,15 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        const res = JSON.parse(event.body);
+        console.log("event -", event);
+        // console.log("event -", event);
+        // const res = JSON.parse(event.body);
 
-        console.log(res);
-        // console.log(`\n${JSON.stringify(res)}\n`);
-
-        // await axios.post(process.env.SLACK_EMAIL_NOTIFICATIONS, {
-        //     text: "\n*Client:* Greenscape\n*Campaign:* Revive Lost Leads\n*Response:* Coming soon...\n",
-        // });
+        // console.log(res);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ res }),
+            body: JSON.stringify({ res: "TEST" }),
         };
     } else {
         return {
