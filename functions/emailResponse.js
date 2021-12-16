@@ -19,7 +19,7 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ msg: "POST request only" }),
+            body: JSON.stringify({ res }),
         };
     } else {
         return {
