@@ -3,26 +3,19 @@ require("dotenv").config();
 const axios = require("axios");
 const moment = require("moment");
 
-const fetch = require("node-fetch");
-
-const users = require("./src/db/users");
-
-const MailShakeApi = require("./functions/utils/mailshake");
-const AirtableApi = require("./functions/utils/airtable");
-
-const {
-    liveCampaigns,
-    campaignsToRun,
-    campaignsDueToday,
-    slackNotification,
-} = require("./functions/utils/helpers");
-
-const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
-
 (async () => {
     try {
-        await slackNotification(process.env.SLACK_TWO_PERCENT_DM, `TEST`);
+        let url =
+            "https://sloties.mypinata.cloud/ipfs/QmVJHsqMVUhZz7hiLZs5JdaxgBC4zeAmn1ce3JLkJw5NdA";
+
+        // let { data } = await axios.get(`${url}1`);
+
+        for (let i = 850; i < 10000; i++) {
+            let { data } = await axios.get(`${url}/${i}`);
+
+            console.log(data.attributes[2], i);
+        }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 })();
