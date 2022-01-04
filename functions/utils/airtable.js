@@ -148,7 +148,7 @@ module.exports = class AirtableApi {
             const res = await base("Prospects")
                 .select({
                     maxRecords: 10,
-                    filterByFormula: `AND(({Highlevel ID} = "${id}"),({Responded} = 0))`,
+                    filterByFormula: `AND(({id} = "${id}"),({Responded} = 0))`,
                 })
                 .firstPage();
 

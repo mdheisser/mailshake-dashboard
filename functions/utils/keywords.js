@@ -19,5 +19,5 @@ module.exports = {
         "Stop texting me",
         "Please remove us",
     ],
-    wrongInfo: ["Wrong number"].join("|"),
+    wrongInfo: ["Wrong number", "Wrong #"].join("|"),
 };
