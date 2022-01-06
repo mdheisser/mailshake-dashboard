@@ -80,6 +80,24 @@ module.exports = class AirtableApi {
         }
     }
 
+    async getLocation(locationID) {
+        try {
+            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
+
+            const [client] = await base("Campaigns")
+                .select({
+                    maxRecords: 1,
+                    filterByFormula: `({Location ID} = "${locationID}")`,
+                })
+                .firstPage();
+
+            return client.fields;
+        } catch (error) {
+            console.log("getLocation() ---", error);
+            return false;
+        }
+    }
+
     async updateCampaign(recordID, updatedFields) {
         try {
             const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
